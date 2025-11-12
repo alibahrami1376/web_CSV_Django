@@ -1,55 +1,40 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پورتفولیو | Portfolio</title>
-    <link rel="stylesheet" href="portfolio-style.css">
-    <script src="https://unpkg.com/feather-icons"></script>
-</head>
-<body class="dark-theme">
-    <portfolio-header></portfolio-header>
-    
+{% extends 'base.html' %}
+
+{% block content %}
+
     <main>
         <!-- Home Section -->
         <section id="home" class="hero-section">
             <div class="hero-content">
                 <div class="profile-image-container">
-                    <img src="https://i.pravatar.cc/300?img=12" alt="Profile Picture" class="profile-image">
+                    <img src="{{ content.hero.profile_image }}" alt="Profile Picture" class="profile-image">
                 </div>
-                <h1 class="hero-title">سلام، من [نام شما] هستم</h1>
+                <h1 class="hero-title">{{ content.hero.title }}</h1>
                 <div class="hero-subtitle">
-                    <span>توسعه‌دهنده Full Stack</span>
-                    <span class="separator">|</span>
-                    <span>طراح UI/UX</span>
-                    <span class="separator">|</span>
-                    <span>متخصص React & Node.js</span>
+                    {% for role in content.hero.roles %}
+                        <span>{{ role }}</span>
+                        {% if not forloop.last %}
+                            <span class="separator">|</span>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">تماس با من</a>
-                    <a href="#projects" class="btn btn-secondary">مشاهده پروژه‌ها</a>
+                    {% for button in content.hero.buttons %}
+                        <a href="{{ button.href }}" class="btn btn-{{ button.variant }}">{{ button.label }}</a>
+                    {% endfor %}
                 </div>
             </div>
-        </section>
+        </section>  
 
         <!-- About / Biography Section -->
         <section id="about" class="section">
             <div class="container">
-                <h2 class="section-title">بیوگرافی</h2>
+                <h2 class="section-title">{{ content.about.title }}</h2>
                 <div class="about-content">
                     <div class="about-text">
-                        <p>
-                            من یک توسعه‌دهنده پرشور و خلاق هستم که عاشق ساخت تجربیات دیجیتالی استثنایی است. 
-                            با بیش از 5 سال تجربه در توسعه وب، من در ساخت برنامه‌های کاربردی مدرن و واکنش‌گرا تخصص دارم.
-                        </p>
-                        <p>
-                            من به کیفیت کد، بهترین شیوه‌های توسعه و تجربه کاربری عالی متعهد هستم. 
-                            همیشه در حال یادگیری تکنولوژی‌های جدید و بهبود مهارت‌هایم هستم.
-                        </p>
-                        <p>
-                            در طول مسیر حرفه‌ای‌ام، با تیم‌های مختلفی همکاری کرده‌ام و پروژه‌های متنوعی را از ایده تا اجرا پیش برده‌ام.
-                            علاقه‌مند به حل مسائل پیچیده و ایجاد راه‌حل‌های نوآورانه هستم.
-                        </p>
+                        {% for paragraph in content.about.paragraphs %}
+                            <p>{{ paragraph }}</p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -58,41 +43,21 @@
         <!-- Education Section -->
         <section id="education" class="section">
             <div class="container">
-                <h2 class="section-title">تحصیلات</h2>
+                <h2 class="section-title">{{ content.education.title }}</h2>
                 <div class="education-timeline">
-                    <div class="education-item">
-                        <div class="education-icon">
-                            <i data-feather="graduation-cap"></i>
+                    {% for item in content.education.items %}
+                        <div class="education-item">
+                            <div class="education-icon">
+                                <i data-feather="{{ item.icon }}"></i>
+                            </div>
+                            <div class="education-content">
+                                <h3>{{ item.title }}</h3>
+                                <p class="education-institution">{{ item.institution }}</p>
+                                <p class="education-period">{{ item.period }}</p>
+                                <p class="education-description">{{ item.description }}</p>
+                            </div>
                         </div>
-                        <div class="education-content">
-                            <h3>کارشناسی ارشد مهندسی نرم‌افزار</h3>
-                            <p class="education-institution">دانشگاه تهران</p>
-                            <p class="education-period">1398 - 1400</p>
-                            <p class="education-description">تخصص در معماری نرم‌افزار و الگوهای طراحی پیشرفته</p>
-                        </div>
-                    </div>
-                    <div class="education-item">
-                        <div class="education-icon">
-                            <i data-feather="book"></i>
-                        </div>
-                        <div class="education-content">
-                            <h3>کارشناسی مهندسی کامپیوتر</h3>
-                            <p class="education-institution">دانشگاه صنعتی شریف</p>
-                            <p class="education-period">1394 - 1398</p>
-                            <p class="education-description">گرایش نرم‌افزار با تمرکز بر توسعه وب و اپلیکیشن‌های موبایل</p>
-                        </div>
-                    </div>
-                    <div class="education-item">
-                        <div class="education-icon">
-                            <i data-feather="award"></i>
-                        </div>
-                        <div class="education-content">
-                            <h3>گواهینامه‌های تخصصی</h3>
-                            <p class="education-institution">AWS Certified Solutions Architect</p>
-                            <p class="education-period">1401</p>
-                            <p class="education-description">مهارت در طراحی و پیاده‌سازی راه‌حل‌های ابری</p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -100,44 +65,22 @@
         <!-- Languages Section -->
         <section id="languages" class="section">
             <div class="container">
-                <h2 class="section-title">زبان‌ها</h2>
+                <h2 class="section-title">{{ content.languages.title }}</h2>
                 <div class="languages-grid">
-                    <div class="language-item">
-                        <div class="language-name">
-                            <i data-feather="globe"></i>
-                            <span>فارسی</span>
-                        </div>
-                        <div class="language-level">
-                            <span class="level-text">زبان مادری</span>
-                            <div class="level-bar">
-                                <div class="level-fill" style="width: 100%"></div>
+                    {% for language in content.languages.items %}
+                        <div class="language-item">
+                            <div class="language-name">
+                                <i data-feather="globe"></i>
+                                <span>{{ language.name }}</span>
+                            </div>
+                            <div class="language-level">
+                                <span class="level-text">{{ language.level_text }}</span>
+                                <div class="level-bar">
+                                    <div class="level-fill" style="width: {{ language.proficiency }}%"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="language-item">
-                        <div class="language-name">
-                            <i data-feather="globe"></i>
-                            <span>انگلیسی</span>
-                        </div>
-                        <div class="language-level">
-                            <span class="level-text">مسلط</span>
-                            <div class="level-bar">
-                                <div class="level-fill" style="width: 90%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="language-item">
-                        <div class="language-name">
-                            <i data-feather="globe"></i>
-                            <span>آلمانی</span>
-                        </div>
-                        <div class="language-level">
-                            <span class="level-text">متوسط</span>
-                            <div class="level-bar">
-                                <div class="level-fill" style="width: 60%"></div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -145,74 +88,20 @@
         <!-- Skills Section -->
         <section id="skills" class="section">
             <div class="container">
-                <h2 class="section-title">توانایی‌ها</h2>
+                <h2 class="section-title">{{ content.skills.title }}</h2>
                 <div class="skills-grid">
-                    <div class="skill-card">
-                        <i data-feather="code"></i>
-                        <h3>توسعه Frontend</h3>
-                        <p>React, Vue.js, TypeScript, HTML5, CSS3, JavaScript ES6+</p>
-                        <div class="skill-tags">
-                            <span>React</span>
-                            <span>Vue.js</span>
-                            <span>TypeScript</span>
-                            <span>Tailwind CSS</span>
+                    {% for skill in content.skills.items %}
+                        <div class="skill-card">
+                            <i data-feather="{{ skill.icon }}"></i>
+                            <h3>{{ skill.title }}</h3>
+                            <p>{{ skill.description }}</p>
+                            <div class="skill-tags">
+                                {% for tag in skill.tags %}
+                                    <span>{{ tag }}</span>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="skill-card">
-                        <i data-feather="server"></i>
-                        <h3>توسعه Backend</h3>
-                        <p>Node.js, Express, MongoDB, PostgreSQL, RESTful APIs</p>
-                        <div class="skill-tags">
-                            <span>Node.js</span>
-                            <span>Express</span>
-                            <span>MongoDB</span>
-                            <span>PostgreSQL</span>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <i data-feather="smartphone"></i>
-                        <h3>توسعه موبایل</h3>
-                        <p>React Native, Flutter, iOS, Android</p>
-                        <div class="skill-tags">
-                            <span>React Native</span>
-                            <span>Flutter</span>
-                            <span>iOS</span>
-                            <span>Android</span>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <i data-feather="layout"></i>
-                        <h3>طراحی UI/UX</h3>
-                        <p>Figma, Adobe XD, Prototyping, Design Systems</p>
-                        <div class="skill-tags">
-                            <span>Figma</span>
-                            <span>Adobe XD</span>
-                            <span>Prototyping</span>
-                            <span>Design Systems</span>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <i data-feather="cloud"></i>
-                        <h3>DevOps & Cloud</h3>
-                        <p>AWS, Docker, CI/CD, Git, Linux</p>
-                        <div class="skill-tags">
-                            <span>AWS</span>
-                            <span>Docker</span>
-                            <span>CI/CD</span>
-                            <span>Git</span>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <i data-feather="database"></i>
-                        <h3>پایگاه داده</h3>
-                        <p>MongoDB, PostgreSQL, MySQL, Redis</p>
-                        <div class="skill-tags">
-                            <span>MongoDB</span>
-                            <span>PostgreSQL</span>
-                            <span>MySQL</span>
-                            <span>Redis</span>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -220,53 +109,25 @@
         <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="container">
-                <h2 class="section-title">پروژه‌های من</h2>
+                <h2 class="section-title">{{ content.projects.title }}</h2>
                 <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600" alt="Project 1">
-                        </div>
-                        <div class="project-content">
-                            <h3>پلتفرم تجارت الکترونیک</h3>
-                            <p>یک پلتفرم کامل تجارت الکترونیک با قابلیت‌های پیشرفته پرداخت و مدیریت موجودی</p>
-                            <div class="project-tags">
-                                <span>React</span>
-                                <span>Node.js</span>
-                                <span>MongoDB</span>
+                    {% for project in content.projects.items %}
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="{{ project.image }}" alt="{{ project.title }}">
                             </div>
-                            <a href="#" class="project-link">مشاهده پروژه <i data-feather="arrow-left"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600" alt="Project 2">
-                        </div>
-                        <div class="project-content">
-                            <h3>برنامه مدیریت وظایف</h3>
-                            <p>برنامه بهره‌وری با ویژگی‌های همکاری تیمی و مدیریت پروژه</p>
-                            <div class="project-tags">
-                                <span>Vue.js</span>
-                                <span>Firebase</span>
-                                <span>Tailwind CSS</span>
+                            <div class="project-content">
+                                <h3>{{ project.title }}</h3>
+                                <p>{{ project.description }}</p>
+                                <div class="project-tags">
+                                    {% for tag in project.tags %}
+                                        <span>{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                                <a href="{{ project.link }}" class="project-link">{{ content.projects.link_label }} <i data-feather="arrow-left"></i></a>
                             </div>
-                            <a href="#" class="project-link">مشاهده پروژه <i data-feather="arrow-left"></i></a>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600" alt="Project 3">
-                        </div>
-                        <div class="project-content">
-                            <h3>وب‌سایت نمونه کار</h3>
-                            <p>قالب نمونه کار مدرن با قابلیت تغییر حالت تاریک/روشن</p>
-                            <div class="project-tags">
-                                <span>HTML/CSS</span>
-                                <span>JavaScript</span>
-                                <span>GSAP</span>
-                            </div>
-                            <a href="#" class="project-link">مشاهده پروژه <i data-feather="arrow-left"></i></a>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -274,81 +135,47 @@
         <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="container">
-                <h2 class="section-title">اطلاعات تماس</h2>
+                <h2 class="section-title">{{ content.contact.title }}</h2>
                 <div class="contact-content">
                     <div class="contact-info">
-                        <h3>بیایید با هم صحبت کنیم!</h3>
-                        <p>آیا پروژه‌ای در ذهن دارید؟ می‌خواهید همکاری کنیم؟ یا فقط می‌خواهید سلام کنید؟</p>
+                        <h3>{{ content.contact.intro_title }}</h3>
+                        <p>{{ content.contact.intro_text }}</p>
                         <div class="contact-details">
-                            <div class="contact-item">
-                                <i data-feather="mail"></i>
-                                <div>
-                                    <strong>ایمیل</strong>
-                                    <span>example@email.com</span>
+                            {% for detail in content.contact.details %}
+                                <div class="contact-item">
+                                    <i data-feather="{{ detail.icon }}"></i>
+                                    <div>
+                                        <strong>{{ detail.label }}</strong>
+                                        <span>{{ detail.value }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="contact-item">
-                                <i data-feather="phone"></i>
-                                <div>
-                                    <strong>تلفن</strong>
-                                    <span>+98 912 345 6789</span>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <i data-feather="map-pin"></i>
-                                <div>
-                                    <strong>آدرس</strong>
-                                    <span>تهران، ایران</span>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <i data-feather="linkedin"></i>
-                                <div>
-                                    <strong>LinkedIn</strong>
-                                    <span>linkedin.com/in/yourprofile</span>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <i data-feather="github"></i>
-                                <div>
-                                    <strong>GitHub</strong>
-                                    <span>github.com/yourusername</span>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">نام</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">ایمیل</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">موضوع</label>
-                            <input type="text" id="subject" name="subject" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">پیام</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">ارسال پیام</button>
+                        {% for field in content.contact.form.fields %}
+                            <div class="form-group">
+                                <label for="{{ field.id }}">{{ field.label }}</label>
+                                {% if field.type == 'textarea' %}
+                                    <textarea
+                                        id="{{ field.id }}"
+                                        name="{{ field.id }}"
+                                        rows="{{ field.rows|default:3 }}"
+                                        {% if field.required %}required{% endif %}></textarea>
+                                {% else %}
+                                    <input
+                                        type="{{ field.type }}"
+                                        id="{{ field.id }}"
+                                        name="{{ field.id }}"
+                                        {% if field.required %}required{% endif %}>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">{{ content.contact.form.submit_label }}</button>
                     </form>
                 </div>
             </div>
         </section>
     </main>
-
-    <portfolio-footer></portfolio-footer>
-
-    <script src="portfolio-components/header.js"></script>
-    <script src="portfolio-components/footer.js"></script>
-    <script src="portfolio-script.js"></script>
-    <script>
-        feather.replace();
-    </script>
-</body>
-</html>
-
+{% endblock %}
+  

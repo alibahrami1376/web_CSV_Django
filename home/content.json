@@ -1,0 +1,206 @@
+{
+  "hero": {
+    "profile_image": "https://i.pravatar.cc/300?img=12",
+    "title": "سلام، من علی بهرامی هستم",
+    "roles": [
+      " bakend developer"
+    ],
+    "buttons": [
+      {
+        "label": "تماس با من",
+        "href": "#contact",
+        "variant": "primary"
+      },
+      {
+        "label": "مشاهده پروژه‌ها",
+        "href": "#projects",
+        "variant": "secondary"
+      }
+    ]
+  },
+  "about": {
+    "title": "بیوگرافی",
+    "paragraphs": [
+      "من یک توسعه‌دهنده پرشور و خلاق هستم که عاشق ساخت تجربیات دیجیتالی استثنایی است. با بیش از 5 سال تجربه در توسعه وب، من در ساخت برنامه‌های کاربردی مدرن و واکنش‌گرا تخصص دارم.",
+      "من به کیفیت کد، بهترین شیوه‌های توسعه و تجربه کاربری عالی متعهد هستم. همیشه در حال یادگیری تکنولوژی‌های جدید و بهبود مهارت‌هایم هستم.",
+      "در طول مسیر حرفه‌ای‌ام، با تیم‌های مختلفی همکاری کرده‌ام و پروژه‌های متنوعی را از ایده تا اجرا پیش برده‌ام. علاقه‌مند به حل مسائل پیچیده و ایجاد راه‌حل‌های نوآورانه هستم."
+    ]
+  },
+  "education": {
+    "title": "تحصیلات",
+    "items": [
+      {
+        "icon": "graduation-cap",
+        "title": "کارشناسی ارشد مهندسی نرم‌افزار",
+        "institution": "دانشگاه تهران",
+        "period": "1398 - 1400",
+        "description": "تخصص در معماری نرم‌افزار و الگوهای طراحی پیشرفته"
+      },
+      {
+        "icon": "book",
+        "title": "کارشناسی مهندسی کامپیوتر",
+        "institution": "دانشگاه صنعتی شریف",
+        "period": "1394 - 1398",
+        "description": "گرایش نرم‌افزار با تمرکز بر توسعه وب و اپلیکیشن‌های موبایل"
+      },
+      {
+        "icon": "award",
+        "title": "گواهینامه‌های تخصصی",
+        "institution": "AWS Certified Solutions Architect",
+        "period": "1401",
+        "description": "مهارت در طراحی و پیاده‌سازی راه‌حل‌های ابری"
+      }
+    ]
+  },
+  "languages": {
+    "title": "زبان‌ها",
+    "items": [
+      {
+        "name": "فارسی",
+        "level_text": "زبان مادری",
+        "proficiency": 100
+      },
+      {
+        "name": "انگلیسی",
+        "level_text": "مسلط",
+        "proficiency": 90
+      },
+      {
+        "name": "آلمانی",
+        "level_text": "متوسط",
+        "proficiency": 60
+      }
+    ]
+  },
+  "skills": {
+    "title": "توانایی‌ها",
+    "items": [
+      {
+        "icon": "code",
+        "title": "توسعه Frontend",
+        "description": "React, Vue.js, TypeScript, HTML5, CSS3, JavaScript ES6+",
+        "tags": ["React", "Vue.js", "TypeScript", "Tailwind CSS"]
+      },
+      {
+        "icon": "server",
+        "title": "توسعه Backend",
+        "description": "Node.js, Express, MongoDB, PostgreSQL, RESTful APIs",
+        "tags": ["Node.js", "Express", "MongoDB", "PostgreSQL"]
+      },
+      {
+        "icon": "smartphone",
+        "title": "توسعه موبایل",
+        "description": "React Native, Flutter, iOS, Android",
+        "tags": ["React Native", "Flutter", "iOS", "Android"]
+      },
+      {
+        "icon": "layout",
+        "title": "طراحی UI/UX",
+        "description": "Figma, Adobe XD, Prototyping, Design Systems",
+        "tags": ["Figma", "Adobe XD", "Prototyping", "Design Systems"]
+      },
+      {
+        "icon": "cloud",
+        "title": "DevOps & Cloud",
+        "description": "AWS, Docker, CI/CD, Git, Linux",
+        "tags": ["AWS", "Docker", "CI/CD", "Git"]
+      },
+      {
+        "icon": "database",
+        "title": "پایگاه داده",
+        "description": "MongoDB, PostgreSQL, MySQL, Redis",
+        "tags": ["MongoDB", "PostgreSQL", "MySQL", "Redis"]
+      }
+    ]
+  },
+  "projects": {
+    "title": "پروژه‌های من",
+    "link_label": "مشاهده پروژه",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600",
+        "title": "پلتفرم تجارت الکترونیک",
+        "description": "یک پلتفرم کامل تجارت الکترونیک با قابلیت‌های پیشرفته پرداخت و مدیریت موجودی",
+        "tags": ["React", "Node.js", "MongoDB"],
+        "link": "#"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600",
+        "title": "برنامه مدیریت وظایف",
+        "description": "برنامه بهره‌وری با ویژگی‌های همکاری تیمی و مدیریت پروژه",
+        "tags": ["Vue.js", "Firebase", "Tailwind CSS"],
+        "link": "#"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600",
+        "title": "وب‌سایت نمونه کار",
+        "description": "قالب نمونه کار مدرن با قابلیت تغییر حالت تاریک/روشن",
+        "tags": ["HTML/CSS", "JavaScript", "GSAP"],
+        "link": "#"
+      }
+    ]
+  },
+  "contact": {
+    "title": "اطلاعات تماس",
+    "intro_title": "بیایید با هم صحبت کنیم!",
+    "intro_text": "آیا پروژه‌ای در ذهن دارید؟ می‌خواهید همکاری کنیم؟ یا فقط می‌خواهید سلام کنید؟",
+    "details": [
+      {
+        "icon": "mail",
+        "label": "ایمیل",
+        "value": "example@email.com"
+      },
+      {
+        "icon": "phone",
+        "label": "تلفن",
+        "value": "+98 912 345 6789"
+      },
+      {
+        "icon": "map-pin",
+        "label": "آدرس",
+        "value": "تهران، ایران"
+      },
+      {
+        "icon": "linkedin",
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/yourprofile"
+      },
+      {
+        "icon": "github",
+        "label": "GitHub",
+        "value": "github.com/yourusername"
+      }
+    ],
+    "form": {
+      "fields": [
+        {
+          "id": "name",
+          "label": "نام",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "email",
+          "label": "ایمیل",
+          "type": "email",
+          "required": true
+        },
+        {
+          "id": "subject",
+          "label": "موضوع",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "message",
+          "label": "پیام",
+          "type": "textarea",
+          "rows": 5,
+          "required": true
+        }
+      ],
+      "submit_label": "ارسال پیام"
+    }
+  }
+}
+

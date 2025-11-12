@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پورتفولیو | Portfolio</title>
+    <link rel="stylesheet" href="{% static 'css/portfolio-style.css' %}"/>
+    <script src="https://unpkg.com/feather-icons"></script>
+  </head>
+
+  <body class="dark-theme">
+    <portfolio-header></portfolio-header>
+  
+    {%block content %} {% endblock %}
+    <portfolio-footer></portfolio-footer>
+    <script src="{% static 'js/header.js'%}"></script>
+    <script src="{% static 'js/footer.js'%}"></script>
+    <script src="{% static 'js/portfolio-script.js'%}"></script>
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>
