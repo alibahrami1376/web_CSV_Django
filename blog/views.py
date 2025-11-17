@@ -3,7 +3,7 @@ from django.http import request
 from django.utils import timezone
 from blog.models import Post
 from datetime import timedelta
-
+from django.core.paginator import PageNotAnInteger,Paginator,EmptyPage
 
 def blog_home(request,**kwargs):
     posts = Post.objects.filter(status=True)
@@ -11,8 +11,18 @@ def blog_home(request,**kwargs):
         posts = posts.filter(category__name = kwargs['cat_name'])
     if kwargs.get('author_username') != None:
         posts= posts.filter(author__username=kwargs['author_username'])
+       
+    page_all  =  Paginator(posts,1)
+    page = request.GET.get("page")
+    try: 
         
-    context = {'posts': posts}
+        posts = page_all.page(page)
+    except PageNotAnInteger:
+        posts = page_all.page(1)
+    except EmptyPage:
+        posts = page_all.page(1)
+        
+    context = {'posts': posts,'page_range':page_all.page_range}
     return render(request, 'blog/blog_home.html', context)
 
 def blog_detail(request, post_id):
