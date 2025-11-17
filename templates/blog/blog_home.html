@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+{% block content %}
+<main>
+    <!-- Banner Area -->
+    <section class="banner-area relative blog-home-banner" id="home">
+        <div class="overlay overlay-bg"></div>
+        <div class="container">
+            <div class="blog-header-content">
+                <h1 class="text-white">
+                    به وبلاگ من خوش آمدید
+                </h1>
+                <p class="text-white">
+                    در اینجا می‌توانید مقالات و نوشته‌های من درباره تکنولوژی، برنامه‌نویسی و تجربیاتم را بخوانید
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- End banner Area -->
+
+    <!-- Start top-category-widget Area -->
+    <section class="top-category-widget-area">
+        <div class="container">
+            <div class="category-widgets-grid">
+                <div class="single-cat-widget">
+                    <div class="content relative">
+                        <div class="overlay overlay-bg"></div>
+                        <a href="#" target="_blank">
+                            <div class="thumb">
+                                <div class="content-image category-placeholder">
+                                    <i data-feather="code"></i>
+                                </div>
+                            </div>
+                            <div class="content-details">
+                                <h4 class="content-title">تکنولوژی</h4>
+                                <span></span>
+                                <p>مقالات مربوط به تکنولوژی</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="single-cat-widget">
+                    <div class="content relative">
+                        <div class="overlay overlay-bg"></div>
+                        <a href="#" target="_blank">
+                            <div class="thumb">
+                                <div class="content-image category-placeholder">
+                                    <i data-feather="book"></i>
+                                </div>
+                            </div>
+                            <div class="content-details">
+                                <h4 class="content-title">آموزش</h4>
+                                <span></span>
+                                <p>آموزش‌های برنامه‌نویسی</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="single-cat-widget">
+                    <div class="content relative">
+                        <div class="overlay overlay-bg"></div>
+                        <a href="#" target="_blank">
+                            <div class="thumb">
+                                <div class="content-image category-placeholder">
+                                    <i data-feather="trending-up"></i>
+                                </div>
+                            </div>
+                            <div class="content-details">
+                                <h4 class="content-title">تجربیات</h4>
+                                <span></span>
+                                <p>تجربیات و نکات کاربردی</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End top-category-widget Area -->
+
+    <!-- Start post-content Area -->
+    <section class="post-content-area">
+        <div class="container">
+            <div class="post-content-grid">
+                <div class="posts-list">
+                    {% if posts %}
+                        {% for post in posts %}
+                            <div class="single-post">
+                                <div class="meta-details">
+                                    <ul class="tags">
+                                        {%for Cat in post.category.all %}
+                                        <li><a href="#">{{Cat.name}}</a></li>
+                                        {% endfor %}      
+                                    </ul>
+                                    <div class="user-details">
+                                        <p class="user-name">
+                                            <a href="#"> Author : {{post.author}}</a> 
+                                            <i data-feather="user"></i>
+                                        </p>
+                                        <p class="date">
+                                            <a href="#">
+                                                {% if post.published_date %}
+                                                    {{ post.published_date|date:"d M, Y" }}
+                                                {% else %}
+                                                    {{ post.creat_date|date:"d M, Y" }}
+                                                {% endif %}
+                                            </a> 
+                                            <i data-feather="calendar"></i>
+                                        </p>
+                                        <p class="view">
+                                            
+                                            <a href="#">{{ post.counted_view }} بازدید</a> 
+                                            <i data-feather="eye"></i>
+                                        </p>
+                                        <p class="comments">
+                                            <a href="#">0 نظر</a> 
+                                            <i data-feather="message-circle"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="post-content-main">
+                                    <div class="feature-img">
+                                        <div class="post-image-placeholder">
+                                            <img src={{post.image.url}} alt="post image" />
+                                        </div>
+                                    </div>
+                                    <a class="posts-title" href="{% url 'blog:blog_detail' post.id %}">
+                                        <h3>{{ post.title }}</h3>
+                                    </a>
+                                    <p class="excert">
+                                        {{post.content|truncatewords:50}}
+                                    </p>
+                                    <a href="{% url 'blog:blog_detail' post.id %}" class="primary-btn">ادامه مطلب</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <!-- Pagination -->
+                        <nav class="blog-pagination">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Previous">
+                                        <i data-feather="chevron-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a href="#" class="page-link">01</a></li>
+                                <li class="page-item active"><a href="#" class="page-link">02</a></li>
+                                <li class="page-item"><a href="#" class="page-link">03</a></li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Next">
+                                        <i data-feather="chevron-left"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    {% else %}
+                        <div class="blog-empty">
+                            <i data-feather="file-text" class="blog-empty-icon"></i>
+                            <p>هنوز پستی منتشر نشده است.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="sidebar-widgets">
+                    <div class="widget-wrap">
+                        <!-- Search Widget -->
+                        <div class="single-sidebar-widget search-widget">
+                            <form class="search-form" action="#">
+                                <input placeholder="جستجوی پست‌ها" name="search" type="text" 
+                                       onfocus="this.placeholder = ''" 
+                                       onblur="this.placeholder = 'جستجوی پست‌ها'">
+                                <button type="submit"><i data-feather="search"></i></button>
+                            </form>
+                        </div>
+
+                        <!-- User Info Widget -->
+                        <div class="single-sidebar-widget user-info-widget">
+                            <div class="user-avatar">
+                                <i data-feather="user"></i>
+                            </div>
+                            <a href="#"><h4>نویسنده وبلاگ</h4></a>
+                            <p>برنامه‌نویس و توسعه‌دهنده وب</p>
+                            <ul class="social-links">
+                                <li><a href="#"><i data-feather="facebook"></i></a></li>
+                                <li><a href="#"><i data-feather="twitter"></i></a></li>
+                                <li><a href="#"><i data-feather="github"></i></a></li>
+                                <li><a href="#"><i data-feather="linkedin"></i></a></li>
+                            </ul>
+                            <p>
+                                در این وبلاگ، تجربیات و دانش خود در زمینه برنامه‌نویسی و تکنولوژی را به اشتراک می‌گذارم.
+                            </p>
+                        </div>
+
+                        <!-- Popular Posts Widget -->
+                        <div class="single-sidebar-widget popular-post-widget">
+                           {% pupolarposts %}
+                        </div>
+
+                        <!-- Category Widget -->
+                        {% postcategories %}
+                        <!-- Newsletter Widget -->
+                        <div class="single-sidebar-widget newsletter-widget">
+                            <h4 class="newsletter-title">خبرنامه</h4>
+                            <p>
+                                برای دریافت آخرین مقالات و نوشته‌های من، ایمیل خود را وارد کنید.
+                            </p>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="inlineFormInputGroup" 
+                                           placeholder="ایمیل خود را وارد کنید" 
+                                           onfocus="this.placeholder = ''" 
+                                           onblur="this.placeholder = 'ایمیل خود را وارد کنید'">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i data-feather="mail"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#" class="bbtns">عضویت</a>
+                            </div>
+                            <p class="text-bottom">
+                                می‌توانید در هر زمان لغو اشتراک کنید
+                            </p>
+                        </div>
+
+                        <!-- Tag Cloud Widget -->
+                        <div class="single-sidebar-widget tag-cloud-widget">
+                            <h4 class="tagcloud-title">تگ‌ها</h4>
+                            <ul>
+                                <li><a href="#">تکنولوژی</a></li>
+                                <li><a href="#">برنامه‌نویسی</a></li>
+                                <li><a href="#">Django</a></li>
+                                <li><a href="#">Python</a></li>
+                                <li><a href="#">وب</a></li>
+                                <li><a href="#">توسعه</a></li>
+                                <li><a href="#">تجربیات</a></li>
+                                <li><a href="#">آموزش</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End post-content Area -->
+</main>
+{% endblock %}

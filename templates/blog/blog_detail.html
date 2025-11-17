@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+{% block content %}
+<main>
+    <!-- Blog Detail Section -->
+    <section class="section blog-detail-section">
+        <div class="container">
+            <div class="blog-detail-container">
+                <article class="blog-post">
+                    <div class="blog-post-header">
+                        <div class="blog-post-meta">
+                            <div class="blog-meta-item">
+                                <i data-feather="calendar"></i>
+                                <span>
+                                    {% if post.published_date %}
+                                        {{ post.published_date|date:"l، d F Y" }}
+                                    {% else %}
+                                        {{ post.creat_date|date:"l، d F Y" }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="blog-meta-item">
+                                <i data-feather="eye"></i>
+                                <span>{{ post.counted_view }} بازدید</span>
+                            </div>
+                        </div>
+                        <h1 class="blog-post-title">{{ post.title }}</h1>
+                    </div>
+                    
+                    <div class="blog-post-content">
+                        {{ post.content|linebreaks }}
+                    </div>
+                    
+                    <div class="blog-post-footer">
+                        <a href="{% url 'blog_home' %}" class="btn btn-secondary">
+                            <i data-feather="arrow-right"></i>
+                            بازگشت به لیست وبلاگ
+                        </a>
+                    </div>
+                </article>
+                
+                {% if related_posts %}
+                    <aside class="blog-sidebar">
+                        <h3 class="sidebar-title">پست‌های مرتبط</h3>
+                        <div class="related-posts">
+                            {% for related_post in related_posts %}
+                                <div class="related-post-item">
+                                    <h4>
+                                        <a href="{% url 'blog_detail' related_post.id %}">{{ related_post.title }}</a>
+                                    </h4>
+                                    <div class="related-post-meta">
+                                        <span>
+                                            {% if related_post.published_date %}
+                                                {{ related_post.published_date|date:"Y/m/d" }}
+                                            {% else %}
+                                                {{ related_post.creat_date|date:"Y/m/d" }}
+                                            {% endif %}
+                                        </span>
+                                        <span>•</span>
+                                        <span>{{ related_post.counted_view }} بازدید</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </aside>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+

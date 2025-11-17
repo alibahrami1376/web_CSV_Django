@@ -1,0 +1,26 @@
+ {% load static %}
+ 
+ <h4 class="popular-title">پست‌های اخیر</h4>
+                            <div class="popular-post-list">
+                                {% if posts %}
+                                    {% for post in posts %}
+                                        <div class="single-post-list">
+                                            <div class="thumb">
+                                                <div class="popular-post-image">
+                                                    <img src={{post.image.url}} alt="icon" />
+                                                </div>
+                                            </div>
+                                            <div class="details">
+                                                <a href="{% url 'blog:blog_detail' post.id %}"><h6>{{ post.title|truncatewords:8 }}</h6></a>
+                                                <p>
+                                                    {% if post.published_date %}
+                                                        {{ post.published_date|timesince }} پیش
+                                                    {% else %}
+                                                        {{ post.creat_date|timesince }} پیش
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>

@@ -242,6 +242,7 @@ class PortfolioHeader extends HTMLElement {
               <li><a href="#languages" class="nav-link">زبان‌ها</a></li>
               <li><a href="#skills" class="nav-link">توانایی‌ها</a></li>
               <li><a href="#projects" class="nav-link">پروژه‌ها</a></li>
+              <li><a href="/blog/" class="nav-link">وبلاگ</a></li>
               <li><a href="#contact" class="nav-link">تماس</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
