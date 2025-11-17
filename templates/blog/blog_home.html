@@ -95,7 +95,7 @@
                                     </ul>
                                     <div class="user-details">
                                         <p class="user-name">
-                                            <a href="#"> Author : {{post.author}}</a> 
+                                            <a href="{% url 'blog:author' author_username=post.author.username %}"> Author : {{post.author}}</a> 
                                             <i data-feather="user"></i>
                                         </p>
                                         <p class="date">
@@ -166,7 +166,7 @@
                     <div class="widget-wrap">
                         <!-- Search Widget -->
                         <div class="single-sidebar-widget search-widget">
-                            <form class="search-form" action="#">
+                            <form class="search-form" method="get" action="{% url 'blog:search' %}">
                                 <input placeholder="جستجوی پست‌ها" name="search" type="text" 
                                        onfocus="this.placeholder = ''" 
                                        onblur="this.placeholder = 'جستجوی پست‌ها'">
