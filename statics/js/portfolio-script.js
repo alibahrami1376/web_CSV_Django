@@ -81,26 +81,26 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Form submission handling
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+// // Form submission handling
+// const contactForm = document.getElementById('contactForm');
+// if (contactForm) {
+//     contactForm.addEventListener('submit', function(e) {
+//         e.preventDefault();
         
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const subject = document.getElementById('subject') ? document.getElementById('subject').value : '';
-        const message = document.getElementById('message').value;
+//         const name = document.getElementById('name').value;
+//         const email = document.getElementById('email').value;
+//         const subject = document.getElementById('subject') ? document.getElementById('subject').value : '';
+//         const message = document.getElementById('message').value;
         
-        if (name && email && message) {
-            // In a real application, you would send this data to a server
-            alert('ممنون از پیام شما! به زودی با شما تماس خواهم گرفت.');
-            contactForm.reset();
-        } else {
-            alert('لطفاً تمام فیلدها را پر کنید.');
-        }
-    });
-}
+//         if (name && email && message) {
+//             // In a real application, you would send this data to a server
+//             alert('ممنون از پیام شما! به زودی با شما تماس خواهم گرفت.');
+//             contactForm.reset();
+//         } else {
+//             alert('لطفاً تمام فیلدها را پر کنید.');
+//         }
+//     });
+// }
 
 // Intersection Observer for scroll animations
 const observerOptions = {

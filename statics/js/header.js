@@ -234,7 +234,7 @@ class PortfolioHeader extends HTMLElement {
       <header class="header-container">
         <div class="container">
           <nav>
-            <a href="#home" class="logo">پورتفولیو | Portfolio</a>
+            <a href="#home" class="logo"> Ali bahrami</a>
             <ul class="nav-links">
               <li><a href="#home" class="nav-link active">خانه</a></li>
               <li><a href="#about" class="nav-link">بیوگرافی</a></li>

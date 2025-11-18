@@ -1,181 +1,197 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
+<main>
+  <!-- Home Section -->
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <div class="profile-image-container">
+        <img
+          src="{{ content.hero.profile_image }}"
+          alt="Profile Picture"
+          class="profile-image"
+        />
+      </div>
+      <h1 class="hero-title">{{ content.hero.title }}</h1>
+      <div class="hero-subtitle">
+        {% for role in content.hero.roles %}
+        <span>{{ role }}</span>
+        {% if not forloop.last %}
+        <span class="separator">|</span>
+        {% endif %} {% endfor %}
+      </div>
+      <div class="hero-buttons">
+        {% for button in content.hero.buttons %}
+        <a href="{{ button.href }}" class="btn btn-{{ button.variant }}"
+          >{{ button.label }}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-    <main>
-        <!-- Home Section -->
-        <section id="home" class="hero-section">
-            <div class="hero-content">
-                <div class="profile-image-container">
-                    <img src="{{ content.hero.profile_image }}" alt="Profile Picture" class="profile-image">
-                </div>
-                <h1 class="hero-title">{{ content.hero.title }}</h1>
-                <div class="hero-subtitle">
-                    {% for role in content.hero.roles %}
-                        <span>{{ role }}</span>
-                        {% if not forloop.last %}
-                            <span class="separator">|</span>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="hero-buttons">
-                    {% for button in content.hero.buttons %}
-                        <a href="{{ button.href }}" class="btn btn-{{ button.variant }}">{{ button.label }}</a>
-                    {% endfor %}
-                </div>
+  <!-- About / Biography Section -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ content.about.title }}</h2>
+      <div class="about-content">
+        <div class="about-text">
+          {% for paragraph in content.about.paragraphs %}
+          <p>{{ paragraph }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ content.education.title }}</h2>
+      <div class="education-timeline">
+        {% for item in content.education.items %}
+        <div class="education-item">
+          <div class="education-icon">
+            <i data-feather="{{ item.icon }}"></i>
+          </div>
+          <div class="education-content">
+            <h3>{{ item.title }}</h3>
+            <p class="education-institution">{{ item.institution }}</p>
+            <p class="education-period">{{ item.period }}</p>
+            <p class="education-description">{{ item.description }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Languages Section -->
+  <section id="languages" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ content.languages.title }}</h2>
+      <div class="languages-grid">
+        {% for language in content.languages.items %}
+        <div class="language-item">
+          <div class="language-name">
+            <i data-feather="globe"></i>
+            <span>{{ language.name }}</span>
+          </div>
+          <div class="language-level">
+            <span class="level-text">{{ language.level_text }}</span>
+            <div class="level-bar">
+              <div
+                class="level-fill"
+                style="width: {{ language.proficiency }}%"
+              ></div>
             </div>
-        </section>  
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-        <!-- About / Biography Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <h2 class="section-title">{{ content.about.title }}</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        {% for paragraph in content.about.paragraphs %}
-                            <p>{{ paragraph }}</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </section>
+  <!-- Skills Section -->
+  <section id="skills" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ content.skills.title }}</h2>
+      <div class="skills-grid">
+        {% for skill in content.skills.items %}
+        <div class="skill-card">
+          <i data-feather="{{ skill.icon }}"></i>
+          <h3>{{ skill.title }}</h3>
+          <p>{{ skill.description }}</p>
+          <div class="skill-tags">
+            {% for tag in skill.tags %}
+            <span>{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-        <!-- Education Section -->
-        <section id="education" class="section">
-            <div class="container">
-                <h2 class="section-title">{{ content.education.title }}</h2>
-                <div class="education-timeline">
-                    {% for item in content.education.items %}
-                        <div class="education-item">
-                            <div class="education-icon">
-                                <i data-feather="{{ item.icon }}"></i>
-                            </div>
-                            <div class="education-content">
-                                <h3>{{ item.title }}</h3>
-                                <p class="education-institution">{{ item.institution }}</p>
-                                <p class="education-period">{{ item.period }}</p>
-                                <p class="education-description">{{ item.description }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+  <!-- Projects Section -->
+  <section id="projects" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ content.projects.title }}</h2>
+      <div class="projects-grid">
+        {% for project in content.projects.items %}
+        <div class="project-card">
+          <div class="project-image">
+            <img src="{{ project.image }}" alt="{{ project.title }}" />
+          </div>
+          <div class="project-content">
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.description }}</p>
+            <div class="project-tags">
+              {% for tag in project.tags %}
+              <span>{{ tag }}</span>
+              {% endfor %}
             </div>
-        </section>
+            <a href="{{ project.link }}" class="project-link"
+              >{{ content.projects.link_label }}
+              <i data-feather="arrow-left"></i
+            ></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-        <!-- Languages Section -->
-        <section id="languages" class="section">
-            <div class="container">
-                <h2 class="section-title">{{ content.languages.title }}</h2>
-                <div class="languages-grid">
-                    {% for language in content.languages.items %}
-                        <div class="language-item">
-                            <div class="language-name">
-                                <i data-feather="globe"></i>
-                                <span>{{ language.name }}</span>
-                            </div>
-                            <div class="language-level">
-                                <span class="level-text">{{ language.level_text }}</span>
-                                <div class="level-bar">
-                                    <div class="level-fill" style="width: {{ language.proficiency }}%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ content.contact.title }}</h2>
+      <div class="contact-content">
+        <div class="contact-info">
+          <h3>{{ content.contact.intro_title }}</h3>
+          <p>{{ content.contact.intro_text }}</p>
+          <div class="contact-details">
+            {% for detail in content.contact.details %}
+            <div class="contact-item">
+              <i data-feather="{{ detail.icon }}"></i>
+              <div>
+                <strong>{{ detail.label }}</strong>
+                <span>{{ detail.value }}</span>
+              </div>
             </div>
-        </section>
+            {% endfor %}
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm" method="POST" action="{% url 'home:save_contact' %}">
+          {% csrf_token %}
 
-        <!-- Skills Section -->
-        <section id="skills" class="section">
-            <div class="container">
-                <h2 class="section-title">{{ content.skills.title }}</h2>
-                <div class="skills-grid">
-                    {% for skill in content.skills.items %}
-                        <div class="skill-card">
-                            <i data-feather="{{ skill.icon }}"></i>
-                            <h3>{{ skill.title }}</h3>
-                            <p>{{ skill.description }}</p>
-                            <div class="skill-tags">
-                                {% for tag in skill.tags %}
-                                    <span>{{ tag }}</span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
+          
+          {% for field in content.contact.form.fields %}
+          <div class="form-group">
+            <label for="{{ field.id }}">{{ field.label }}</label>
 
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <div class="container">
-                <h2 class="section-title">{{ content.projects.title }}</h2>
-                <div class="projects-grid">
-                    {% for project in content.projects.items %}
-                        <div class="project-card">
-                            <div class="project-image">
-                                <img src="{{ project.image }}" alt="{{ project.title }}">
-                            </div>
-                            <div class="project-content">
-                                <h3>{{ project.title }}</h3>
-                                <p>{{ project.description }}</p>
-                                <div class="project-tags">
-                                    {% for tag in project.tags %}
-                                        <span>{{ tag }}</span>
-                                    {% endfor %}
-                                </div>
-                                <a href="{{ project.link }}" class="project-link">{{ content.projects.link_label }} <i data-feather="arrow-left"></i></a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
+            {% if field.type == 'textarea' %}
+            <textarea
+              id="{{ field.id }}"
+              name="{{ field.id }}"
+              required
+            ></textarea>
+            {% else %}
+            <input
+              type="{{ field.type }}"
+              id="{{ field.id }}"
+              name="{{ field.id }}"
+              required
+            />
+            {% endif %}
+          </div>
+          {% endfor %}
 
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="container">
-                <h2 class="section-title">{{ content.contact.title }}</h2>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <h3>{{ content.contact.intro_title }}</h3>
-                        <p>{{ content.contact.intro_text }}</p>
-                        <div class="contact-details">
-                            {% for detail in content.contact.details %}
-                                <div class="contact-item">
-                                    <i data-feather="{{ detail.icon }}"></i>
-                                    <div>
-                                        <strong>{{ detail.label }}</strong>
-                                        <span>{{ detail.value }}</span>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <form class="contact-form" id="contactForm">
-                        {% for field in content.contact.form.fields %}
-                            <div class="form-group">
-                                <label for="{{ field.id }}">{{ field.label }}</label>
-                                {% if field.type == 'textarea' %}
-                                    <textarea
-                                        id="{{ field.id }}"
-                                        name="{{ field.id }}"
-                                        rows="{{ field.rows|default:3 }}"
-                                        {% if field.required %}required{% endif %}></textarea>
-                                {% else %}
-                                    <input
-                                        type="{{ field.type }}"
-                                        id="{{ field.id }}"
-                                        name="{{ field.id }}"
-                                        {% if field.required %}required{% endif %}>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-primary">{{ content.contact.form.submit_label }}</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
+          <button type="submit" class="btn btn-primary">
+            {{ content.contact.form.submit_label }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
 {% endblock %}
-  
