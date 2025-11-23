@@ -8,11 +8,19 @@ class PortfolioHeader extends HTMLElement {
 
     // بخش ورود/پروفایل برای گوشه راست (کنار دکمه تم)
     const authButton = isAuth
-      ? `
-        <a href="${profileUrl}" class="auth-button profile-button">
-          <img src="${avatarUrl}" alt="Profile" class="auth-avatar">
-        </a>
-      `
+      ? avatarUrl
+        ? `
+          <a href="${profileUrl}" class="auth-button profile-button">
+            <img src="${avatarUrl}" alt="Profile" class="auth-avatar">
+          </a>
+        `
+        : `
+          <a href="${profileUrl}" class="auth-button profile-button">
+            <div class="auth-avatar-placeholder">
+              <i data-feather="user"></i>
+            </div>
+          </a>
+        `
       : `
         <a href="${loginUrl}" class="auth-button login-button">
           <i data-feather="log-in"></i>
@@ -224,6 +232,20 @@ class PortfolioHeader extends HTMLElement {
           height: 100%;
           border-radius: 50%;
           object-fit: cover;
+        }
+        .auth-avatar-placeholder {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--surface-2-color);
+        }
+        .auth-avatar-placeholder i {
+          width: 18px;
+          height: 18px;
+          color: var(--text-secondary-color);
         }
         .profile-button:hover {
           border-color: #ffffff;

@@ -13,7 +13,8 @@
     {% if user.is_authenticated %}
     <portfolio-header
       data-is-auth="true"
-      data-avatar="{{ user.profile.avatar.url }}"
+      data-avatar="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}"
+      data-profile-url="{% url 'home:profile' %}"
     ></portfolio-header>
     {% else %}
     <portfolio-header data-is-auth="false"></portfolio-header>

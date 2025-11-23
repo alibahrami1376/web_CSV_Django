@@ -1,0 +1,500 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+  <section class="signup-section">
+    <div class="signup-container">
+      <div class="signup-card">
+        <div class="signup-header">
+          <h1 class="signup-title">ایجاد حساب کاربری</h1>
+          <p class="signup-subtitle">لطفاً اطلاعات خود را برای ثبت نام وارد کنید</p>
+        </div>
+
+        {% if messages %}
+          <div class="messages-container">
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="POST" class="signup-form" action="{% url 'home:signup' %}">
+          {% csrf_token %}
+          
+          <div class="form-group">
+            <label for="username" class="form-label">
+              <i data-feather="user"></i>
+              نام کاربری
+            </label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-input" 
+              placeholder="نام کاربری خود را وارد کنید"
+              required
+              autofocus
+              minlength="3"
+              maxlength="150"
+            />
+            <small class="form-help">حداقل 3 کاراکتر و حداکثر 150 کاراکتر</small>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">
+              <i data-feather="mail"></i>
+              ایمیل
+            </label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="form-input" 
+              placeholder="ایمیل خود را وارد کنید"
+              required
+            />
+            <small class="form-help">ایمیل معتبر خود را وارد کنید</small>
+          </div>
+
+          <div class="form-group">
+            <label for="password1" class="form-label">
+              <i data-feather="lock"></i>
+              رمز عبور
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                type="password" 
+                id="password1" 
+                name="password1" 
+                class="form-input password-input" 
+                placeholder="رمز عبور خود را وارد کنید"
+                required
+                minlength="8"
+              />
+              <button type="button" class="password-toggle" onclick="togglePassword('password1', this)">
+                <i data-feather="eye"></i>
+              </button>
+            </div>
+            <small class="form-help">حداقل 8 کاراکتر شامل حروف و اعداد</small>
+          </div>
+
+          <div class="form-group">
+            <label for="password2" class="form-label">
+              <i data-feather="lock"></i>
+              تأیید رمز عبور
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                type="password" 
+                id="password2" 
+                name="password2" 
+                class="form-input password-input" 
+                placeholder="رمز عبور را دوباره وارد کنید"
+                required
+                minlength="8"
+              />
+              <button type="button" class="password-toggle" onclick="togglePassword('password2', this)">
+                <i data-feather="eye"></i>
+              </button>
+            </div>
+            <small class="form-help">رمز عبور را دوباره وارد کنید</small>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="terms" name="terms" required />
+              <span class="checkbox-custom"></span>
+              <span class="checkbox-text">قوانین و مقررات را می‌پذیرم</span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-signup">
+              <i data-feather="user-plus"></i>
+              ثبت نام
+            </button>
+          </div>
+
+          <div class="signup-footer">
+            <p class="signup-footer-text">
+              قبلاً حساب کاربری دارید؟
+              <a href="{% url 'home:login' %}" class="signup-link">
+                ورود به حساب کاربری
+              </a>
+            </p>
+            <a href="{% url 'home:home' %}" class="back-link">
+              <i data-feather="arrow-right"></i>
+              بازگشت به صفحه اصلی
+            </a>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  .signup-section {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+  }
+
+  .signup-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .signup-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .dark-theme .signup-card {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .light-theme .signup-card {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .signup-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .signup-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .signup-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary-color);
+  }
+
+  .messages-container {
+    margin-bottom: 1.5rem;
+  }
+
+  .alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+  }
+
+  .alert-error {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+  }
+
+  .alert-warning {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: #ff9800;
+    border: 1px solid rgba(255, 152, 0, 0.3);
+  }
+
+  .signup-form {
+    width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .form-label i {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary-color);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--surface-2-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: 'Vazirmatn', sans-serif;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .form-input::placeholder {
+    color: var(--text-muted-color);
+  }
+
+  .form-help {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted-color);
+  }
+
+  .password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .password-input {
+    padding-right: 3rem;
+  }
+
+  .password-toggle {
+    position: absolute;
+    left: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+    z-index: 1;
+  }
+
+  .password-toggle:hover {
+    color: var(--text-color);
+  }
+
+  .password-toggle i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .checkbox-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-color);
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    display: none;
+  }
+
+  .checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--surface-2-color);
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+  }
+
+  .checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+  }
+
+  .checkbox-text {
+    user-select: none;
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-signup {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-signup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .btn-signup:active {
+    transform: translateY(0);
+  }
+
+  .btn-signup i {
+    width: 20px;
+    height: 20px;
+  }
+
+  .signup-footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .signup-footer-text {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary-color);
+  }
+
+  .signup-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .signup-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text-color);
+  }
+
+  .back-link i {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .signup-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .signup-title {
+      font-size: 1.5rem;
+    }
+
+    .signup-section {
+      padding: 2rem 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Initialize feather icons after page load
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+  });
+
+  // Toggle password visibility
+  function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    const icon = button.querySelector('i');
+    
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.setAttribute('data-feather', 'eye-off');
+    } else {
+      input.type = 'password';
+      icon.setAttribute('data-feather', 'eye');
+    }
+    
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+  }
+
+  // Password strength validation
+  document.addEventListener('DOMContentLoaded', function() {
+    const password1 = document.getElementById('password1');
+    const password2 = document.getElementById('password2');
+
+    if (password1 && password2) {
+      password2.addEventListener('input', function() {
+        if (password1.value !== password2.value) {
+          password2.setCustomValidity('رمز عبور و تأیید رمز عبور باید یکسان باشند');
+        } else {
+          password2.setCustomValidity('');
+        }
+      });
+
+      password1.addEventListener('input', function() {
+        if (password2.value && password1.value !== password2.value) {
+          password2.setCustomValidity('رمز عبور و تأیید رمز عبور باید یکسان باشند');
+        } else {
+          password2.setCustomValidity('');
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}
+
