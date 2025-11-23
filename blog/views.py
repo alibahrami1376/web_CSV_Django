@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404,redirect
-from django.http import request 
+from django.http import HttpRequest
 from django.utils import timezone
 from blog.models import Post
 from blog.forms import NewsletterForm
@@ -44,7 +44,7 @@ def blog_detail(request, post_id):
     }
     return render(request, 'blog/blog_detail.html', context)
 
-def blog_search(request:request):
+def blog_search(request:HttpRequest):
     posts = Post.objects.filter(status=True)
     
     if request.method == 'GET':
@@ -53,7 +53,7 @@ def blog_search(request:request):
     context = {'posts': posts}
     return render(request, 'blog/blog_home.html', context)
     
-def save_newsletter(request:request):
+def save_newsletter(request:HttpRequest):
     if request.method == "POST":
         print("salaa,m")
         form = NewsletterForm(request.POST)

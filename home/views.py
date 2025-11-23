@@ -9,6 +9,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from home.forms import ContactForm, ProfileForm
 from home.models import Profile
+from django.http import HttpRequest
 
 def _load_home_content():
     content_path = Path(settings.BASE_DIR) / 'home' / 'content.json'
@@ -19,10 +20,10 @@ def _load_home_content():
 HOME_CONTENT = _load_home_content()
 
 
-def home_page(request):
+def home_page(request:HttpRequest):
     return render(request, 'home.html', {'content': HOME_CONTENT})
 
-def save_contact(request:request):
+def save_contact(request:HttpRequest):
     if request.method == "POST":
         
         form = ContactForm(request.POST)
@@ -36,7 +37,7 @@ def save_contact(request:request):
             
     return redirect('home:home')
 
-def login_view(request):
+def login_view(request:HttpRequest):
     if request.user.is_authenticated:
         return redirect('home:home')
     
@@ -58,7 +59,7 @@ def login_view(request):
     return render(request, 'login.html')
 
 
-def signup_view(request):
+def signup_view(request:HttpRequest):
     if request.user.is_authenticated:
         return redirect('home:home')
     
@@ -105,7 +106,7 @@ def signup_view(request):
     return render(request, 'signup.html')
 
 @login_required
-def profile_view(request):
+def profile_view(request:HttpRequest):
     try:
         profile = request.user.profile
     except Profile.DoesNotExist:
@@ -128,7 +129,7 @@ def profile_view(request):
     return render(request, 'profile.html', context)
 
 @login_required
-def logout_view(request):
+def logout_view(request:HttpRequest):
     logout(request)
     messages.success(request, 'شما با موفقیت از حساب کاربری خود خارج شدید.')
     return redirect('home:home')
