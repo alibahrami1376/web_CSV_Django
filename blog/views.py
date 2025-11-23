@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpRequest
 from django.utils import timezone
+from django.db.models import Q
 from blog.models import Post
 from blog.forms import NewsletterForm
 from datetime import timedelta
@@ -14,7 +15,7 @@ def blog_home(request,**kwargs):
     if kwargs.get('author_username') != None:
         posts= posts.filter(author__username=kwargs['author_username'])
        
-    page_all  =  Paginator(posts,1)
+    page_all  =  Paginator(posts, 6)
     page = request.GET.get("page")
     try: 
         
@@ -48,19 +49,21 @@ def blog_search(request:HttpRequest):
     posts = Post.objects.filter(status=True)
     
     if request.method == 'GET':
-        posts = posts.filter(content__contains=request.GET.get('search'))
+        search_query = request.GET.get('search', '').strip()
+        if search_query:
+            posts = posts.filter(
+                Q(title__icontains=search_query) | 
+                Q(content__icontains=search_query)
+            )
         
     context = {'posts': posts}
     return render(request, 'blog/blog_home.html', context)
     
 def save_newsletter(request:HttpRequest):
     if request.method == "POST":
-        print("salaa,m")
         form = NewsletterForm(request.POST)
-        print(form.is_valid())
         if form.is_valid():
             form.save()
-            print("save")
             return redirect('blog:blog_home')
     
     return redirect('blog:blog_home')    

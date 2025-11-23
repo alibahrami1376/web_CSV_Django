@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.http import request
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from home.forms import ContactForm, ProfileForm
@@ -104,7 +103,10 @@ def signup_view(request:HttpRequest):
             messages.success(request, f'حساب کاربری {username} با موفقیت ایجاد شد! اکنون می‌توانید وارد شوید.')
             return redirect('home:login')
         except Exception as e:
-            messages.error(request, f'خطا در ایجاد حساب کاربری: {str(e)}')
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Error creating user: {e}")
+            messages.error(request, 'خطا در ایجاد حساب کاربری. لطفاً دوباره تلاش کنید.')
             return render(request, 'signup.html')
     
     return render(request, 'signup.html')

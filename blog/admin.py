@@ -10,10 +10,13 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['title','content'] 
     
 @admin.register(Category)
-class Category(admin.ModelAdmin):
-    pass
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
     
    
 @admin.register(Newsletter)
-class Category(admin.ModelAdmin):
-    pass
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display = ('email', 'created_date')
+    search_fields = ('email',)
+    list_filter = ('created_date',)

@@ -42,13 +42,17 @@
 
   <body class="dark-theme">
     {% if user.is_authenticated %}
-    <portfolio-header
-      data-is-auth="true"
-      data-avatar="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}"
-      data-profile-url="{% url 'home:profile' %}"
-    ></portfolio-header>
+      {% if user.profile %}
+        <portfolio-header
+          data-is-auth="true"
+          data-avatar="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}"
+          data-profile-url="{% url 'home:profile' %}"
+        ></portfolio-header>
+      {% else %}
+        <portfolio-header data-is-auth="true"></portfolio-header>
+      {% endif %}
     {% else %}
-    <portfolio-header data-is-auth="false"></portfolio-header>
+      <portfolio-header data-is-auth="false"></portfolio-header>
     {% endif %} {%block content %} {% endblock %}
     <portfolio-footer></portfolio-footer>
     <script src="{% static 'js/header.js'%}"></script>

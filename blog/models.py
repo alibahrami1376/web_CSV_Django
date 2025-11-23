@@ -21,13 +21,17 @@ class Post(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['creat_date']
+        ordering = ['-creat_date']
         
     def __str__(self):
         return f"{self.title}"      
     
 class Newsletter(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_date']
     
     def __str__(self):
         return self.email

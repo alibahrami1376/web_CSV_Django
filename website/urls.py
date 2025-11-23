@@ -22,9 +22,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("home.urls", namespace="home")),
-    path('blog/',include('blog.urls'),name='blog'),
-    path('projects/',include('projects.urls'),name='projects'),
+    path('blog/',include('blog.urls', namespace='blog')),
+    path('projects/',include('projects.urls', namespace='projects')),
     path('captcha/', include('captcha.urls')) 
 ]
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# فقط در حالت development static files را serve کن
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
