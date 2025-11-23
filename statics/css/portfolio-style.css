@@ -90,8 +90,9 @@ body.light-theme * {
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .profile-image-container {
@@ -105,19 +106,68 @@ body.light-theme * {
   object-fit: cover;
   border: 4px solid;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-banner-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto 2rem;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-banner-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+.hero-banner-image {
+  width: 100%;
+  height: auto;
+  min-height: 400px;
+  max-height: 600px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 16px;
+}
+
+.dark-theme .hero-banner-container {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .hero-banner-container:hover {
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+}
+
+.light-theme .hero-banner-container {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.light-theme .hero-banner-container:hover {
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
 }
 
 .dark-theme .profile-image {
-  border-color: #333;
+  border-color: #667eea;
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
 }
 
 .light-theme .profile-image {
-  border-color: #e0e0e0;
+  border-color: #764ba2;
+  box-shadow: 0 10px 40px rgba(118, 75, 162, 0.2);
 }
 
 .profile-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.5);
+}
+
+.light-theme .profile-image:hover {
+  box-shadow: 0 15px 50px rgba(118, 75, 162, 0.4);
 }
 
 .hero-title {
@@ -246,6 +296,38 @@ body.light-theme * {
   font-weight: 700;
   text-align: center;
   margin-bottom: 3rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.view-all-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.view-all-link i {
+  width: 18px;
+  height: 18px;
 }
 
 .dark-theme .section-title {
@@ -597,6 +679,39 @@ body.light-theme * {
 }
 
 /* Projects Section */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.view-all-link:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+  transform: translateX(-3px);
+}
+
+.view-all-link i {
+  width: 18px;
+  height: 18px;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -633,8 +748,16 @@ body.light-theme * {
 
 .project-image {
   width: 100%;
-  height: 200px;
+  height: 250px;
   overflow: hidden;
+  position: relative;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
 .popular-post-image img {
@@ -648,13 +771,73 @@ body.light-theme * {
   transform: scale(1.1);
 }
 
+.project-status {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.project-status-completed {
+  background: rgba(76, 175, 80, 0.9);
+  color: #ffffff;
+}
+
+.project-status-in_progress {
+  background: rgba(255, 152, 0, 0.9);
+  color: #ffffff;
+}
+
+.project-status i {
+  width: 16px;
+  height: 16px;
+}
+
 .project-content {
   padding: 1.5rem;
 }
 
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
 .project-content h3 {
   font-size: 1.5rem;
-  margin-bottom: 0.75rem;
+  margin: 0;
+  flex: 1;
+}
+
+.project-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.dark-theme .project-date {
+  color: var(--dark-text-muted);
+}
+
+.light-theme .project-date {
+  color: var(--light-text-muted);
+}
+
+.project-date i {
+  width: 16px;
+  height: 16px;
 }
 
 .dark-theme .project-content h3 {
@@ -686,19 +869,31 @@ body.light-theme * {
 }
 
 .project-tags span {
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
   font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .dark-theme .project-tags span {
-  background-color: var(--dark-surface-2);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
   color: var(--dark-text-secondary);
+  border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
 .light-theme .project-tags span {
-  background-color: var(--light-surface-2);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
   color: var(--light-text-secondary);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.project-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
 }
 
 .project-link {
@@ -707,24 +902,44 @@ body.light-theme * {
   gap: 0.5rem;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
 }
 
-.dark-theme .project-link {
+.project-link-demo {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+.project-link-demo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  opacity: 1;
+}
+
+.project-link-github {
+  background: var(--surface-2-color);
+  border: 1px solid var(--border-color);
+}
+
+.dark-theme .project-link-github {
   color: var(--dark-text);
 }
 
-.light-theme .project-link {
+.light-theme .project-link-github {
   color: var(--light-text);
 }
 
-.project-link:hover {
-  opacity: 0.8;
+.project-link-github:hover {
+  background: var(--border-color);
+  transform: translateY(-2px);
+  opacity: 1;
 }
 
 .project-link i {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 /* Contact Section */
@@ -887,6 +1102,27 @@ body.light-theme * {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-content {
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  .hero-banner-container {
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    width: 100%;
+  }
+  
+  .hero-banner-image {
+    border-radius: 12px;
+    min-height: 250px;
+    max-height: 350px;
+  }
+  
   .hero-title {
     font-size: 2rem;
   }
@@ -902,6 +1138,17 @@ body.light-theme * {
   .section-title {
     font-size: 2rem;
   }
+
+  .section-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .view-all-link {
+    width: 100%;
+    justify-content: center;
+  }
   
   .contact-content {
     grid-template-columns: 1fr;
@@ -913,6 +1160,28 @@ body.light-theme * {
   
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .project-date {
+    font-size: 0.85rem;
+  }
+  
+  .project-links {
+    flex-direction: column;
+  }
+  
+  .project-link {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .project-image {
+    height: 200px;
   }
   
   .profile-image {

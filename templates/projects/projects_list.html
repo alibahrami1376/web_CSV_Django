@@ -1,0 +1,684 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+  <!-- Projects List Section -->
+  <section class="projects-list-section">
+    <div class="container">
+      <!-- Header -->
+      <div class="projects-header">
+        <div>
+          <h1 class="page-title">پروژه‌های من</h1>
+          <p class="page-subtitle">مجموعه پروژه‌های انجام شده و در حال توسعه</p>
+        </div>
+        {% if total_projects %}
+        <div class="projects-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ total_projects }}</span>
+            <span class="stat-label">کل پروژه‌ها</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ completed_projects }}</span>
+            <span class="stat-label">تکمیل شده</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ in_progress_projects }}</span>
+            <span class="stat-label">در حال توسعه</span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Filters and Search -->
+      <div class="projects-filters">
+        <form method="GET" class="filter-form">
+          <div class="filter-row">
+            <div class="filter-group">
+              <input 
+                type="text" 
+                name="search" 
+                value="{{ search_query }}" 
+                placeholder="جستجو در پروژه‌ها..."
+                class="filter-input"
+              />
+            </div>
+            <div class="filter-group">
+              <select name="category" class="filter-select">
+                <option value="">همه دسته‌بندی‌ها</option>
+                {% for category in categories %}
+                <option value="{{ category.slug }}" {% if current_category == category.slug %}selected{% endif %}>
+                  {{ category.name }} {% if category.project_count %}({{ category.project_count }}){% endif %}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="filter-group">
+              <select name="status" class="filter-select">
+                <option value="">همه وضعیت‌ها</option>
+                <option value="completed" {% if current_status == 'completed' %}selected{% endif %}>تکمیل شده</option>
+                <option value="in_progress" {% if current_status == 'in_progress' %}selected{% endif %}>در حال توسعه</option>
+                <option value="on_hold" {% if current_status == 'on_hold' %}selected{% endif %}>متوقف شده</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <select name="sort" class="filter-select">
+                <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>جدیدترین</option>
+                <option value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>قدیمی‌ترین</option>
+                <option value="most_viewed" {% if sort_by == 'most_viewed' %}selected{% endif %}>پربازدیدترین</option>
+                <option value="title_asc" {% if sort_by == 'title_asc' %}selected{% endif %}>عنوان (صعودی)</option>
+                <option value="title_desc" {% if sort_by == 'title_desc' %}selected{% endif %}>عنوان (نزولی)</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <button type="submit" class="filter-btn">
+                <i data-feather="search"></i>
+                جستجو
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Projects Grid -->
+      {% if projects %}
+      <div class="projects-grid">
+        {% for project in projects %}
+        <div class="project-card">
+          <div class="project-image">
+            {% if project.image %}
+            <img src="{{ project.image.url }}" alt="{{ project.title }}" />
+            {% else %}
+            <div class="project-image-placeholder">
+              <i data-feather="image"></i>
+            </div>
+            {% endif %}
+            <div class="project-status project-status-{{ project.status }}">
+              {% if project.status == "completed" %}
+                <i data-feather="check-circle"></i>
+                <span>تکمیل شده</span>
+              {% elif project.status == "in_progress" %}
+                <i data-feather="clock"></i>
+                <span>در حال توسعه</span>
+              {% elif project.status == "on_hold" %}
+                <i data-feather="pause-circle"></i>
+                <span>متوقف شده</span>
+              {% endif %}
+            </div>
+            {% if project.featured %}
+            <div class="project-featured">
+              <i data-feather="star"></i>
+              <span>ویژه</span>
+            </div>
+            {% endif %}
+          </div>
+          <div class="project-content">
+            <div class="project-header">
+              <h3><a href="{% url 'projects:project_detail' project.slug %}">{{ project.title }}</a></h3>
+            </div>
+            <p class="project-description">{{ project.description|truncatewords:20 }}</p>
+            <div class="project-meta">
+              <span class="meta-item">
+                <i data-feather="eye"></i>
+                {{ project.view_count }} بازدید
+              </span>
+              <span class="meta-item">
+                <i data-feather="calendar"></i>
+                {{ project.created_date|date:"Y/m/d" }}
+              </span>
+            </div>
+            <div class="project-categories">
+              {% for category in project.category.all %}
+              <span class="category-tag">{{ category.name }}</span>
+              {% endfor %}
+            </div>
+            <div class="project-links">
+              <a href="{% url 'projects:project_detail' project.slug %}" class="project-link project-link-demo">
+                مشاهده جزئیات
+                <i data-feather="arrow-left"></i>
+              </a>
+              {% if project.github_url %}
+              <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="project-link project-link-github">
+                <i data-feather="github"></i>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Pagination -->
+      {% if projects.has_other_pages %}
+      <div class="pagination-wrapper">
+        <nav class="pagination">
+          {% if projects.has_previous %}
+          <a href="?page={{ projects.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_status %}&status={{ current_status }}{% endif %}" class="pagination-link">
+            <i data-feather="chevron-right"></i>
+            قبلی
+          </a>
+          {% endif %}
+          
+          <div class="pagination-numbers">
+            {% for num in page_range %}
+              {% if projects.number == num %}
+              <span class="pagination-number active">{{ num }}</span>
+              {% elif num > projects.number|add:'-3' and num < projects.number|add:'3' %}
+              <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_status %}&status={{ current_status }}{% endif %}" class="pagination-number">{{ num }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          {% if projects.has_next %}
+          <a href="?page={{ projects.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_status %}&status={{ current_status }}{% endif %}" class="pagination-link">
+            بعدی
+            <i data-feather="chevron-left"></i>
+          </a>
+          {% endif %}
+        </nav>
+      </div>
+      {% endif %}
+      {% else %}
+      <div class="no-results">
+        <i data-feather="inbox"></i>
+        <h3>پروژه‌ای یافت نشد</h3>
+        <p>متأسفانه پروژه‌ای با این فیلترها پیدا نشد.</p>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</main>
+
+<style>
+  .projects-list-section {
+    min-height: calc(100vh - 200px);
+    padding: 4rem 2rem;
+    background: var(--bg-color);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .projects-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary-color);
+  }
+
+  /* Filters */
+  .projects-filters {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+  }
+
+  .filter-form {
+    width: 100%;
+  }
+
+  .filter-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .projects-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    min-width: 100px;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #667eea;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary-color);
+  }
+
+  .filter-group {
+    display: flex;
+  }
+
+  .filter-input,
+  .filter-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--surface-2-color);
+    color: var(--text-color);
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.95rem;
+  }
+
+  .filter-input:focus,
+  .filter-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .filter-btn i {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Projects Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .project-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .dark-theme .project-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .project-image {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-2-color);
+  }
+
+  .project-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2-color);
+  }
+
+  .project-image-placeholder i {
+    width: 60px;
+    height: 60px;
+    color: var(--text-muted-color);
+  }
+
+  .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .project-card:hover .project-image img {
+    transform: scale(1.1);
+  }
+
+  .project-status {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+
+  .project-status-completed {
+    background: rgba(76, 175, 80, 0.9);
+    color: #ffffff;
+  }
+
+  .project-status-in_progress {
+    background: rgba(255, 152, 0, 0.9);
+    color: #ffffff;
+  }
+
+  .project-status-on_hold {
+    background: rgba(158, 158, 158, 0.9);
+    color: #ffffff;
+  }
+
+  .project-status i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .project-featured {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(255, 193, 7, 0.9);
+    color: #000000;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+
+  .project-featured i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .project-content {
+    padding: 1.5rem;
+  }
+
+  .project-header h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+  }
+
+  .project-header h3 a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .project-header h3 a:hover {
+    color: #667eea;
+  }
+
+  .project-description {
+    color: var(--text-secondary-color);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .project-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .meta-item i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .project-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .category-tag {
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    color: var(--text-secondary-color);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+  }
+
+  .light-theme .category-tag {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-color: rgba(102, 126, 234, 0.2);
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+  }
+
+  .project-link-demo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .project-link-demo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .project-link-github {
+    background: var(--surface-2-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+  }
+
+  .project-link-github:hover {
+    background: var(--border-color);
+    transform: translateY(-2px);
+  }
+
+  .project-link i {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Pagination */
+  .pagination-wrapper {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pagination-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .pagination-link:hover {
+    background: var(--surface-2-color);
+    transform: translateY(-2px);
+  }
+
+  .pagination-link i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .pagination-numbers {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .pagination-number {
+    padding: 0.75rem 1rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-width: 44px;
+    text-align: center;
+  }
+
+  .pagination-number:hover {
+    background: var(--surface-2-color);
+  }
+
+  .pagination-number.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border-color: transparent;
+  }
+
+  /* No Results */
+  .no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .no-results i {
+    width: 80px;
+    height: 80px;
+    color: var(--text-muted-color);
+    margin-bottom: 1.5rem;
+  }
+
+  .no-results h3 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .no-results p {
+    color: var(--text-secondary-color);
+  }
+
+  @media (max-width: 768px) {
+    .projects-list-section {
+      padding: 2rem 1rem;
+    }
+
+    .filter-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .projects-header {
+      text-align: center;
+    }
+    
+    .projects-stats {
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .stat-item {
+      width: 100%;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-links {
+      flex-direction: column;
+    }
+
+    .project-link {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .pagination {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+  });
+</script>
+{% endblock %}
+

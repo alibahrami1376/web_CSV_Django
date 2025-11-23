@@ -1,0 +1,666 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+  <!-- Project Detail Section -->
+  <section class="project-detail-section">
+    <div class="container">
+      <!-- Back Link -->
+      <div class="back-nav">
+        <a href="{% url 'projects:projects_list' %}" class="back-link">
+          <i data-feather="arrow-right"></i>
+          بازگشت به لیست پروژه‌ها
+        </a>
+      </div>
+
+      <!-- Project Header -->
+      <div class="project-detail-header">
+        <div class="project-detail-image">
+          {% if project.image %}
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" />
+          {% else %}
+          <div class="project-image-placeholder-large">
+            <i data-feather="image"></i>
+            <span>تصویری موجود نیست</span>
+          </div>
+          {% endif %}
+          <div class="project-status project-status-{{ project.status }}">
+            {% if project.status == "completed" %}
+              <i data-feather="check-circle"></i>
+              <span>تکمیل شده</span>
+            {% elif project.status == "in_progress" %}
+              <i data-feather="clock"></i>
+              <span>در حال توسعه</span>
+            {% elif project.status == "on_hold" %}
+              <i data-feather="pause-circle"></i>
+              <span>متوقف شده</span>
+            {% endif %}
+          </div>
+          {% if project.featured %}
+          <div class="project-featured">
+            <i data-feather="star"></i>
+            <span>ویژه</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="project-detail-info">
+          <h1 class="project-title">{{ project.title }}</h1>
+          <p class="project-description">{{ project.description }}</p>
+          
+          <div class="project-meta-detail">
+            <div class="meta-item">
+              <i data-feather="calendar"></i>
+              <span>تاریخ ایجاد: {{ project.created_date|date:"Y/m/d" }}</span>
+            </div>
+            {% if project.published_date %}
+            <div class="meta-item">
+              <i data-feather="clock"></i>
+              <span>تاریخ انتشار: {{ project.published_date|date:"Y/m/d" }}</span>
+            </div>
+            {% endif %}
+            <div class="meta-item">
+              <i data-feather="eye"></i>
+              <span>{{ project.view_count }} بازدید</span>
+            </div>
+            {% if project.author %}
+            <div class="meta-item">
+              <i data-feather="user"></i>
+              <span>نویسنده: {{ project.author.username }}</span>
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="project-categories-detail">
+            <strong>دسته‌بندی‌ها:</strong>
+            <div class="categories-list">
+              {% for category in project.category.all %}
+              <a href="{% url 'projects:projects_by_category' category.slug %}" class="category-link">
+                {{ category.name }}
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="project-links-detail">
+            {% if project.github_url %}
+            <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="project-link-btn project-link-github">
+              <i data-feather="github"></i>
+              <span>مشاهده کد منبع</span>
+            </a>
+            {% endif %}
+            {% if project.demo_url %}
+            <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer" class="project-link-btn project-link-demo">
+              <i data-feather="external-link"></i>
+              <span>مشاهده دمو</span>
+            </a>
+            {% endif %}
+            {% if project.website_url %}
+            <a href="{{ project.website_url }}" target="_blank" rel="noopener noreferrer" class="project-link-btn project-link-website">
+              <i data-feather="globe"></i>
+              <span>وب‌سایت پروژه</span>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Content -->
+      {% if project.content %}
+      <div class="project-content-detail">
+        <h2>درباره پروژه</h2>
+        <div class="content-text">
+          {{ project.content|linebreaks }}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Featured Projects -->
+      {% if featured_projects %}
+      <div class="featured-projects">
+        <h2>
+          <i data-feather="star"></i>
+          پروژه‌های ویژه
+        </h2>
+        <div class="related-projects-grid">
+          {% for featured in featured_projects %}
+          <div class="related-project-card">
+            <a href="{% url 'projects:project_detail' featured.slug %}">
+              <div class="related-project-image">
+                {% if featured.image %}
+                <img src="{{ featured.image.url }}" alt="{{ featured.title }}" />
+                {% else %}
+                <div class="project-image-placeholder">
+                  <i data-feather="image"></i>
+                </div>
+                {% endif %}
+                <div class="project-featured-small">
+                  <i data-feather="star"></i>
+                </div>
+              </div>
+              <div class="related-project-content">
+                <h3>{{ featured.title }}</h3>
+                <p>{{ featured.description|truncatewords:15 }}</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Related Projects -->
+      {% if related_projects %}
+      <div class="related-projects">
+        <h2>پروژه‌های مرتبط</h2>
+        <div class="related-projects-grid">
+          {% for related in related_projects %}
+          <div class="related-project-card">
+            <a href="{% url 'projects:project_detail' related.slug %}">
+              <div class="related-project-image">
+                {% if related.image %}
+                <img src="{{ related.image.url }}" alt="{{ related.title }}" />
+                {% else %}
+                <div class="project-image-placeholder">
+                  <i data-feather="image"></i>
+                </div>
+                {% endif %}
+              </div>
+              <div class="related-project-content">
+                <h3>{{ related.title }}</h3>
+                <p>{{ related.description|truncatewords:15 }}</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</main>
+
+<style>
+  .project-detail-section {
+    min-height: calc(100vh - 200px);
+    padding: 4rem 2rem;
+    background: var(--bg-color);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .back-nav {
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text-color);
+  }
+
+  .back-link i {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Project Header */
+  .project-detail-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .project-detail-image {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  }
+
+  .project-detail-image img {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-image-placeholder-large {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2-color);
+    gap: 1rem;
+  }
+
+  .project-image-placeholder-large i {
+    width: 80px;
+    height: 80px;
+    color: var(--text-muted-color);
+  }
+
+  .project-image-placeholder-large span {
+    color: var(--text-muted-color);
+    font-size: 1.1rem;
+  }
+
+  .project-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .project-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+  }
+
+  .project-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary-color);
+    line-height: 1.8;
+  }
+
+  .project-meta-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary-color);
+    font-size: 0.95rem;
+  }
+
+  .meta-item i {
+    width: 20px;
+    height: 20px;
+    color: var(--text-muted-color);
+  }
+
+  .project-categories-detail {
+    padding: 1.5rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+  }
+
+  .project-categories-detail strong {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .category-link {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .category-link:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border-color: transparent;
+    transform: translateY(-2px);
+  }
+
+  .project-links-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .project-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .project-link-demo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+  }
+
+  .project-link-demo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  .project-link-github {
+    background: var(--surface-2-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+  }
+
+  .project-link-github:hover {
+    background: var(--border-color);
+    transform: translateY(-3px);
+  }
+
+  .project-link-website {
+    background: var(--surface-2-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+  }
+
+  .project-link-website:hover {
+    background: var(--border-color);
+    transform: translateY(-3px);
+  }
+
+  .project-link-btn i {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Project Content */
+  .project-content-detail {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+  }
+
+  .project-content-detail h2 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .content-text {
+    color: var(--text-secondary-color);
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+
+  .content-text p {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Featured Projects */
+  .featured-projects {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 2px solid var(--border-color);
+  }
+
+  .featured-projects h2 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .featured-projects h2 i {
+    width: 28px;
+    height: 28px;
+    color: #ffc107;
+  }
+
+  .project-featured-small {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 193, 7, 0.9);
+    color: #000000;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .project-featured-small i {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Related Projects */
+  .related-projects {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 2px solid var(--border-color);
+  }
+
+  .related-projects h2 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+  }
+
+  .related-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .related-project-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .related-project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .related-project-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .related-project-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: var(--surface-2-color);
+    position: relative;
+  }
+
+  .related-project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .project-featured-small {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 193, 7, 0.9);
+    color: #000000;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+  }
+
+  .project-featured-small i {
+    width: 14px;
+    height: 14px;
+  }
+
+  .project-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2-color);
+  }
+
+  .project-image-placeholder i {
+    width: 50px;
+    height: 50px;
+    color: var(--text-muted-color);
+  }
+
+  .related-project-card:hover .related-project-image img {
+    transform: scale(1.1);
+  }
+
+  .related-project-content {
+    padding: 1.5rem;
+  }
+
+  .related-project-content h3 {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .related-project-content p {
+    color: var(--text-secondary-color);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* Status Badge */
+  .project-status {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+
+  .project-status-completed {
+    background: rgba(76, 175, 80, 0.9);
+    color: #ffffff;
+  }
+
+  .project-status-in_progress {
+    background: rgba(255, 152, 0, 0.9);
+    color: #ffffff;
+  }
+
+  .project-status-on_hold {
+    background: rgba(158, 158, 158, 0.9);
+    color: #ffffff;
+  }
+
+  .project-status i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .project-featured {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(255, 193, 7, 0.9);
+    color: #000000;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+
+  .project-featured i {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 968px) {
+    .project-detail-header {
+      grid-template-columns: 1fr;
+    }
+
+    .project-detail-image img {
+      min-height: 300px;
+    }
+
+    .related-projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .project-detail-section {
+      padding: 2rem 1rem;
+    }
+
+    .project-title {
+      font-size: 2rem;
+    }
+
+    .project-links-detail {
+      flex-direction: column;
+    }
+
+    .project-link-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+  });
+</script>
+{% endblock %}
+

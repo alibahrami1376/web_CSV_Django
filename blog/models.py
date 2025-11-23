@@ -12,8 +12,8 @@ class Post(models.Model):
     image = models.ImageField(upload_to='blog/',default='blog/default.png')
     title = models.CharField(max_length=255)
     content = models.TextField(null=True)
+    url = models.URLField(max_length=500, null=True, blank=True)   
     category =models.ManyToManyField(Category)
-    #tag
     counted_view = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True)

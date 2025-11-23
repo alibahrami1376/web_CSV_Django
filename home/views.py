@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from home.forms import ContactForm, ProfileForm
 from home.models import Profile
 from django.http import HttpRequest
+from projects.models import Projects
 
 def _load_home_content():
     content_path = Path(settings.BASE_DIR) / 'home' / 'content.json'
@@ -21,7 +22,8 @@ HOME_CONTENT = _load_home_content()
 
 
 def home_page(request:HttpRequest):
-    return render(request, 'home.html', {'content': HOME_CONTENT})
+    projects = Projects.objects.all()
+    return render(request, 'home.html', {'content': HOME_CONTENT,'projects':projects})
 
 def save_contact(request:HttpRequest):
     if request.method == "POST":
