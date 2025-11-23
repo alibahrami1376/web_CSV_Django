@@ -334,10 +334,10 @@ class PortfolioHeader extends HTMLElement {
               <li><a href="#contact" class="nav-link">تماس</a></li>
             </ul>
             <div class="header-right">
+              ${authButton}
               <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <i data-feather="moon"></i>
               </button>
-              ${authButton}
             </div>
             <div class="mobile-toggle">
               <span class="bar"></span>
