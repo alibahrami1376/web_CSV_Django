@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post,Category 
+from blog.models import Post,Category,Newsletter
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -13,3 +13,7 @@ class PostAdmin(admin.ModelAdmin):
 class Category(admin.ModelAdmin):
     pass
     
+   
+@admin.register(Newsletter)
+class Category(admin.ModelAdmin):
+    pass

@@ -1,9 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.http import request 
 from django.utils import timezone
 from blog.models import Post
+from blog.forms import NewsletterForm
 from datetime import timedelta
 from django.core.paginator import PageNotAnInteger,Paginator,EmptyPage
+
 
 def blog_home(request,**kwargs):
     posts = Post.objects.filter(status=True)
@@ -51,3 +53,15 @@ def blog_search(request:request):
     context = {'posts': posts}
     return render(request, 'blog/blog_home.html', context)
     
+def save_newsletter(request:request):
+    if request.method == "POST":
+        print("salaa,m")
+        form = NewsletterForm(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+            form.save()
+            print("save")
+            return redirect('blog:blog_home')
+    
+    return redirect('blog:blog_home')    
+            

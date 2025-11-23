@@ -1,5 +1,25 @@
 class PortfolioHeader extends HTMLElement {
   connectedCallback() {
+    // خواندن وضعیت لاگین از attributeها
+    const isAuth = this.getAttribute('data-is-auth') === 'true';
+    const avatarUrl = this.getAttribute('data-avatar') || '';
+    const profileUrl = this.getAttribute('data-profile-url') || '/profile/';
+    const loginUrl = this.getAttribute('data-login-url') || '/login/';
+
+    // بخش ورود/پروفایل برای گوشه راست (کنار دکمه تم)
+    const authButton = isAuth
+      ? `
+        <a href="${profileUrl}" class="auth-button profile-button">
+          <img src="${avatarUrl}" alt="Profile" class="auth-avatar">
+        </a>
+      `
+      : `
+        <a href="${loginUrl}" class="auth-button login-button">
+          <i data-feather="log-in"></i>
+          <span>ورود</span>
+        </a>
+      `;
+
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
@@ -90,23 +110,28 @@ class PortfolioHeader extends HTMLElement {
         .nav-link.active {
           color: #ffffff;
         }
+
+
+        .header-right {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
         .theme-toggle {
           background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
           border: 1px solid #333;
-          border-radius: 50px;
+          border-radius: 50%;
           color: #cccccc;
           cursor: pointer;
-          padding: 0.5rem 1rem;
-          margin-left: 1rem;
+          padding: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.5rem;
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
-          min-width: 50px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         .theme-toggle::before {
@@ -152,24 +177,87 @@ class PortfolioHeader extends HTMLElement {
           transform: rotate(15deg) scale(1.1);
         }
         .theme-toggle-text {
-          font-size: 0.85rem;
-          font-weight: 500;
           display: none;
-          user-select: none;
-          white-space: nowrap;
         }
-        @media (min-width: 769px) {
-          .theme-toggle {
-            padding: 0.5rem 1.25rem;
-          }
-          .theme-toggle-text {
-            display: inline;
-          }
+        .auth-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: 50px;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          font-size: 0.9rem;
+          font-weight: 500;
+          border: 1px solid #333;
+          background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+          color: #cccccc;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .auth-button:hover {
+          color: #ffffff;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          border-color: #444;
+        }
+        .auth-button:active {
+          transform: translateY(0);
+        }
+        .auth-button svg {
+          width: 16px;
+          height: 16px;
+        }
+        .auth-button span {
+          user-select: none;
+        }
+        .profile-button {
+          padding: 0;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          background: transparent;
+          border: 2px solid #cccccc;
+        }
+        .auth-avatar {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        .profile-button:hover {
+          border-color: #ffffff;
+          transform: scale(1.08);
+        }
+        :host-context(body.light-theme) .auth-button {
+          background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+          border-color: #e0e0e0;
+          color: #666;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        :host-context(body.light-theme) .auth-button:hover {
+          color: #1a1a1a;
+          border-color: #ccc;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        :host-context(body.light-theme) .profile-button {
+          border-color: #999999;
+        }
+        :host-context(body.light-theme) .profile-button:hover {
+          border-color: #333333;
         }
         @media (max-width: 768px) {
           .theme-toggle {
-            min-width: 40px;
-            padding: 0.5rem;
+            width: 32px;
+            height: 32px;
+          }
+          .auth-button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+          }
+          .profile-button {
+            width: 32px;
+            height: 32px;
           }
         }
         .mobile-toggle {
@@ -234,7 +322,7 @@ class PortfolioHeader extends HTMLElement {
       <header class="header-container">
         <div class="container">
           <nav>
-            <a href="#home" class="logo"> Ali bahrami</a>
+            <a href="#home" class="logo">Ali Bahrami</a>
             <ul class="nav-links">
               <li><a href="#home" class="nav-link active">خانه</a></li>
               <li><a href="#about" class="nav-link">بیوگرافی</a></li>
@@ -245,10 +333,12 @@ class PortfolioHeader extends HTMLElement {
               <li><a href="/blog/" class="nav-link">وبلاگ</a></li>
               <li><a href="#contact" class="nav-link">تماس</a></li>
             </ul>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-              <i data-feather="moon"></i>
-              <span class="theme-toggle-text" id="themeToggleText">Dark</span>
-            </button>
+            <div class="header-right">
+              <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i data-feather="moon"></i>
+              </button>
+              ${authButton}
+            </div>
             <div class="mobile-toggle">
               <span class="bar"></span>
               <span class="bar"></span>
@@ -274,7 +364,7 @@ class PortfolioHeader extends HTMLElement {
       link.addEventListener('click', () => {
         mobileToggle.classList.remove('active');
         navLinks.classList.remove('active');
-        
+
         // Update active class
         links.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
@@ -284,35 +374,29 @@ class PortfolioHeader extends HTMLElement {
     // Theme toggle functionality
     const themeToggle = this.shadowRoot.querySelector('#themeToggle');
     const isDarkMode = localStorage.getItem('theme') !== 'light';
-    
+
     const updateTheme = (isDark) => {
       const body = document.body;
       const icon = themeToggle.querySelector('i');
-      const text = this.shadowRoot.querySelector('#themeToggleText');
-      
-      // Add transition class for smooth theme change
+
       body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-      
+
       if (isDark) {
         body.classList.add('dark-theme');
         body.classList.remove('light-theme');
         icon.setAttribute('data-feather', 'sun');
-        if (text) text.textContent = 'Light';
         localStorage.setItem('theme', 'dark');
       } else {
         body.classList.add('light-theme');
         body.classList.remove('dark-theme');
         icon.setAttribute('data-feather', 'moon');
-        if (text) text.textContent = 'Dark';
         localStorage.setItem('theme', 'light');
       }
-      
-      // Dispatch custom event for theme change
-      window.dispatchEvent(new CustomEvent('themechange', { 
-        detail: { theme: isDark ? 'dark' : 'light' } 
+
+      window.dispatchEvent(new CustomEvent('themechange', {
+        detail: { theme: isDark ? 'dark' : 'light' }
       }));
-      
-      // Re-initialize feather icons
+
       setTimeout(() => {
         if (typeof feather !== 'undefined') {
           feather.replace();
@@ -320,11 +404,6 @@ class PortfolioHeader extends HTMLElement {
       }, 50);
     };
 
-    // Initialize theme and text
-    const themeToggleText = this.shadowRoot.querySelector('#themeToggleText');
-    if (themeToggleText) {
-      themeToggleText.textContent = isDarkMode ? 'Light' : 'Dark';
-    }
     updateTheme(isDarkMode);
 
     themeToggle.addEventListener('click', () => {
@@ -366,4 +445,3 @@ class PortfolioHeader extends HTMLElement {
 }
 
 customElements.define('portfolio-header', PortfolioHeader);
-

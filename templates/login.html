@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+  <section class="login-section">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <h1 class="login-title">ورود به حساب کاربری</h1>
+          <p class="login-subtitle">لطفاً اطلاعات خود را وارد کنید</p>
+        </div>
+
+        {% if messages %}
+          <div class="messages-container">
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="POST" class="login-form" action="{% url 'home:login' %}">
+          {% csrf_token %}
+          
+          <div class="form-group">
+            <label for="username" class="form-label">
+              <i data-feather="user"></i>
+              نام کاربری
+            </label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-input" 
+              placeholder="نام کاربری خود را وارد کنید"
+              required
+              autofocus
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">
+              <i data-feather="lock"></i>
+              رمز عبور
+            </label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-input" 
+              placeholder="رمز عبور خود را وارد کنید"
+              required
+            />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-login">
+              <i data-feather="log-in"></i>
+              ورود
+            </button>
+          </div>
+
+          <div class="login-footer">
+            <a href="{% url 'home:home' %}" class="back-link">
+              <i data-feather="arrow-right"></i>
+              بازگشت به صفحه اصلی
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  .login-section {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .login-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .dark-theme .login-card {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .light-theme .login-card {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .login-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary-color);
+  }
+
+  .messages-container {
+    margin-bottom: 1.5rem;
+  }
+
+  .alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+  }
+
+  .alert-error {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+  }
+
+  .login-form {
+    width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .form-label i {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary-color);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--surface-2-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: 'Vazirmatn', sans-serif;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .form-input::placeholder {
+    color: var(--text-muted-color);
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .btn-login:active {
+    transform: translateY(0);
+  }
+
+  .btn-login i {
+    width: 20px;
+    height: 20px;
+  }
+
+  .login-footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text-color);
+  }
+
+  .back-link i {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .login-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .login-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Initialize feather icons after page load
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+  });
+</script>
+{% endblock %}
+

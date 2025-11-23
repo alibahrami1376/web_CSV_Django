@@ -215,8 +215,11 @@
                                 برای دریافت آخرین مقالات و نوشته‌های من، ایمیل خود را وارد کنید.
                             </p>
                             <div class="form-group">
+                            <form  method="POST" action="{% url 'blog:save_newsletter' %}">
+                                {% csrf_token %}
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="inlineFormInputGroup" 
+                                           name="email"
                                            placeholder="ایمیل خود را وارد کنید" 
                                            onfocus="this.placeholder = ''" 
                                            onblur="this.placeholder = 'ایمیل خود را وارد کنید'">
@@ -226,11 +229,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#" class="bbtns">عضویت</a>
+                               <button  href="#" class="bbtns" type="submit">عضویت</button>
                             </div>
-                            <p class="text-bottom">
+                            <p class="text-bottom" >
                                 می‌توانید در هر زمان لغو اشتراک کنید
                             </p>
+                            </div>
+                            </form>
                         </div>
 
                         <!-- Tag Cloud Widget -->
