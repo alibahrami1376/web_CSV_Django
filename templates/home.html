@@ -71,18 +71,61 @@
       <h2 class="section-title">{{ content.languages.title }}</h2>
       <div class="languages-grid">
         {% for language in content.languages.items %}
-        <div class="language-item">
-          <div class="language-name">
-            <i data-feather="globe"></i>
-            <span>{{ language.name }}</span>
+        <div class="language-item" data-language-index="{{ forloop.counter0 }}" data-writing="{{ language.writing }}" data-speaking="{{ language.speaking }}" data-listening="{{ language.listening }}">
+          <div class="language-header">
+            <div class="language-name">
+              <i data-feather="globe"></i>
+              <span>{{ language.name }}</span>
+            </div>
+            <div class="language-level">
+              <span class="level-text">{{ language.level_text }}</span>
+              <div class="level-bar">
+                <div
+                  class="level-fill"
+                  style="width: {{ language.proficiency }}%"
+                ></div>
+              </div>
+            </div>
+            <div class="language-toggle">
+              <i data-feather="chevron-down" class="toggle-icon"></i>
+            </div>
           </div>
-          <div class="language-level">
-            <span class="level-text">{{ language.level_text }}</span>
-            <div class="level-bar">
-              <div
-                class="level-fill"
-                style="width: {{ language.proficiency }}%"
-              ></div>
+          <div class="language-details">
+            <div class="language-skill">
+              <div class="skill-header">
+                <span class="skill-label">
+                  <i data-feather="edit-3"></i>
+                  نوشتن (Writing)
+                </span>
+                <span class="skill-percentage">{{ language.writing }}%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="{{ language.writing }}" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="language-skill">
+              <div class="skill-header">
+                <span class="skill-label">
+                  <i data-feather="mic"></i>
+                  صحبت کردن (Speaking)
+                </span>
+                <span class="skill-percentage">{{ language.speaking }}%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="{{ language.speaking }}" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="language-skill">
+              <div class="skill-header">
+                <span class="skill-label">
+                  <i data-feather="headphones"></i>
+                  شنیدن (Listening)
+                </span>
+                <span class="skill-percentage">{{ language.listening }}%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="{{ language.listening }}" style="width: 0%"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -234,4 +277,97 @@
     </div>
   </section>
 </main>
+
+<script>
+  (function() {
+    'use strict';
+    
+    function initLanguageCards() {
+      const languageItems = document.querySelectorAll('.language-item');
+      
+      if (languageItems.length === 0) {
+        return;
+      }
+      
+      // اضافه کردن event listener به هر language-header
+      languageItems.forEach((item) => {
+        const header = item.querySelector('.language-header');
+        if (!header) {
+          return;
+        }
+        
+        // اضافه کردن cursor pointer
+        header.style.cursor = 'pointer';
+        
+        // خواندن مقادیر از data attributes
+        const writing = item.getAttribute('data-writing') || '0';
+        const speaking = item.getAttribute('data-speaking') || '0';
+        const listening = item.getAttribute('data-listening') || '0';
+        
+        header.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const isCurrentlyExpanded = item.classList.contains('expanded');
+          
+          // بستن همه آیتم‌ها
+          languageItems.forEach((otherItem) => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('expanded');
+            }
+          });
+          
+          // اگر آیتم کلیک شده باز نبود، آن را باز کن
+          if (!isCurrentlyExpanded) {
+            item.classList.add('expanded');
+            
+            // انیمیشن skill bars بعد از باز شدن
+            setTimeout(function() {
+              const skillFills = item.querySelectorAll('.skill-fill');
+              
+              skillFills.forEach(function(fill, fillIndex) {
+                let widthValue;
+                // خواندن از data-width یا از data attributes
+                widthValue = fill.getAttribute('data-width');
+                if (!widthValue) {
+                  // اگر data-width نبود، از data attributes item بخوان
+                  if (fillIndex === 0) widthValue = writing;
+                  else if (fillIndex === 1) widthValue = speaking;
+                  else if (fillIndex === 2) widthValue = listening;
+                }
+                
+                if (widthValue) {
+                  const width = widthValue + '%';
+                  fill.style.width = '0%';
+                  // Force reflow
+                  fill.offsetHeight;
+                  setTimeout(function() {
+                    fill.style.width = width;
+                  }, 10);
+                }
+              });
+            }, 300);
+          } else {
+            item.classList.remove('expanded');
+          }
+          
+          // به‌روزرسانی آیکون‌های feather
+          setTimeout(function() {
+            if (typeof feather !== 'undefined') {
+              feather.replace();
+            }
+          }, 150);
+        });
+      });
+    }
+    
+    // اجرا بعد از لود شدن صفحه
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLanguageCards);
+    } else {
+      initLanguageCards();
+    }
+  })();
+</script>
+
 {% endblock %}

@@ -52,12 +52,18 @@
       {
         "name": "فارسی",
         "level_text": "زبان مادری",
-        "proficiency": 100
+        "proficiency": 100,
+        "writing": 100,
+        "speaking": 100,
+        "listening": 100
       },
       {
         "name": "انگلیسی",
         "level_text": "متوسط",
-        "proficiency": 40
+        "proficiency": 40,
+        "writing": 35,
+        "speaking": 45,
+        "listening": 50
       }
     ]
   },

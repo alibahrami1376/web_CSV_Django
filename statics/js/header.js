@@ -358,7 +358,7 @@ class PortfolioHeader extends HTMLElement {
             <div class="header-right">
               ${authButton}
               <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <i data-feather="moon"></i>
+                <i data-feather="sun"></i>
               </button>
             </div>
             <div class="mobile-toggle">
@@ -399,19 +399,19 @@ class PortfolioHeader extends HTMLElement {
 
     const updateTheme = (isDark) => {
       const body = document.body;
-      const icon = themeToggle.querySelector('i');
+      const iconContainer = themeToggle;
 
       body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+
+      const iconName = isDark ? 'sun' : 'moon';
 
       if (isDark) {
         body.classList.add('dark-theme');
         body.classList.remove('light-theme');
-        icon.setAttribute('data-feather', 'sun');
         localStorage.setItem('theme', 'dark');
       } else {
         body.classList.add('light-theme');
         body.classList.remove('dark-theme');
-        icon.setAttribute('data-feather', 'moon');
         localStorage.setItem('theme', 'light');
       }
 
@@ -419,9 +419,14 @@ class PortfolioHeader extends HTMLElement {
         detail: { theme: isDark ? 'dark' : 'light' }
       }));
 
+      // Update icon in shadow DOM
       setTimeout(() => {
-        if (typeof feather !== 'undefined') {
-          feather.replace();
+        if (typeof feather !== 'undefined' && feather.icons[iconName]) {
+          const svg = feather.icons[iconName].toSvg({
+            width: '18',
+            height: '18'
+          });
+          iconContainer.innerHTML = svg;
         }
       }, 50);
     };
@@ -458,11 +463,24 @@ class PortfolioHeader extends HTMLElement {
     updateActiveLink();
 
     // Initialize feather icons in shadow DOM
-    setTimeout(() => {
+    const initFeatherIcons = () => {
       if (typeof feather !== 'undefined') {
-        feather.replace();
+        // Replace all icons in shadow DOM
+        const shadowIcons = this.shadowRoot.querySelectorAll('[data-feather]');
+        shadowIcons.forEach(icon => {
+          const iconName = icon.getAttribute('data-feather');
+          if (iconName && feather.icons[iconName]) {
+            const svg = feather.icons[iconName].toSvg({
+              width: icon.getAttribute('width') || '18',
+              height: icon.getAttribute('height') || '18'
+            });
+            icon.outerHTML = svg;
+          }
+        });
       }
-    }, 100);
+    };
+    
+    setTimeout(initFeatherIcons, 100);
   }
 }
 

@@ -590,8 +590,10 @@ body.light-theme * {
 
 .language-item {
   padding: 1.5rem;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .dark-theme .language-item {
@@ -605,7 +607,7 @@ body.light-theme * {
 }
 
 .language-item:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 .dark-theme .language-item:hover {
@@ -616,11 +618,33 @@ body.light-theme * {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+.language-item.expanded {
+  transform: scale(1.05);
+  z-index: 10;
+  position: relative;
+}
+
+.dark-theme .language-item.expanded {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  border-color: #667eea;
+}
+
+.light-theme .language-item.expanded {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  border-color: #667eea;
+}
+
+.language-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+
 .language-name {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1rem;
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -676,6 +700,102 @@ body.light-theme * {
   border-radius: 4px;
   transition: width 1s ease;
   background: linear-gradient(90deg, #6366f1, #8b5cf6);
+}
+
+.language-toggle {
+  position: absolute;
+  left: 1.5rem;
+  top: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.language-item.expanded .language-toggle {
+  transform: rotate(180deg);
+}
+
+.toggle-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary-color);
+}
+
+.language-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+  padding: 0;
+  margin-top: 0;
+}
+
+.language-item.expanded .language-details {
+  max-height: 500px;
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.language-skill {
+  margin-bottom: 1.5rem;
+}
+
+.language-skill:last-child {
+  margin-bottom: 0;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.skill-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.dark-theme .skill-label {
+  color: var(--dark-text-secondary);
+}
+
+.light-theme .skill-label {
+  color: var(--light-text-secondary);
+}
+
+.skill-label i {
+  width: 16px;
+  height: 16px;
+}
+
+.skill-percentage {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.skill-bar {
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dark-theme .skill-bar {
+  background-color: var(--dark-surface-2);
+}
+
+.light-theme .skill-bar {
+  background-color: var(--light-surface-2);
+}
+
+.skill-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+  background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
 /* Projects Section */
