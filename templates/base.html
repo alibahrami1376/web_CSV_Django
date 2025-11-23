@@ -6,7 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ali Bahrami</title>
     <link rel="stylesheet" href="{% static 'css/portfolio-style.css' %}" />
-    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- استفاده از CDN جایگزین برای feather-icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+      // Fallback در صورت عدم لود شدن feather از CDN اصلی
+      (function() {
+        function loadFeatherFallback() {
+          if (typeof feather === 'undefined') {
+            console.warn('Feather icons از CDN لود نشد. تلاش برای استفاده از CDN جایگزین...');
+            var script = document.createElement('script');
+            script.src = 'https://unpkg.com/feather-icons';
+            script.onerror = function() {
+              console.warn('Feather icons از هیچ CDN لود نشد. آیکون‌ها ممکن است نمایش داده نشوند.');
+            };
+            script.onload = function() {
+              if (typeof feather !== 'undefined') {
+                feather.replace();
+              }
+            };
+            document.head.appendChild(script);
+          }
+        }
+        
+        // بررسی بعد از لود شدن صفحه
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(loadFeatherFallback, 500);
+          });
+        } else {
+          setTimeout(loadFeatherFallback, 500);
+        }
+      })();
+    </script>
   </head>
 
   <body class="dark-theme">
@@ -24,7 +55,16 @@
     <script src="{% static 'js/footer.js'%}"></script>
     <script src="{% static 'js/portfolio-script.js'%}"></script>
     <script>
-      feather.replace();
+      // صبر کردن تا feather لود شود
+      function initFeather() {
+        if (typeof feather !== 'undefined') {
+          feather.replace();
+        } else {
+          // اگر feather هنوز لود نشده، دوباره تلاش کن
+          setTimeout(initFeather, 100);
+        }
+      }
+      initFeather();
     </script>
   </body>
 </html>

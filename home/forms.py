@@ -1,7 +1,10 @@
 from django.forms import ModelForm
+from captcha.fields import CaptchaField
 from home.models import Contact, Profile
 
 class ContactForm(ModelForm):
+    captcha = CaptchaField(label='کد امنیتی')
+    
     class Meta:
         model = Contact
         fields = "__all__"

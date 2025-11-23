@@ -8,7 +8,7 @@ from django.http import request
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from home.forms import ContactForm, ProfileForm
-from home.models import Profile
+from home.models import Contact, Profile
 from django.http import HttpRequest
 from projects.models import Projects
 
@@ -24,21 +24,21 @@ HOME_CONTENT = _load_home_content()
 def home_page(request:HttpRequest):
     # دریافت پروژه‌ها از دیتابیس - ابتدا پروژه‌های ویژه، سپس بقیه
     projects = Projects.objects.all().order_by('-featured', '-created_date')[:3]  # نمایش حداکثر 3 پروژه
+    form = ContactForm()
     
-    return render(request, 'home.html', {'content': HOME_CONTENT,'projects':projects})
+    return render(request, 'home.html', {'content': HOME_CONTENT,'projects':projects, 'contact_form': form})
 
 def save_contact(request:HttpRequest):
     if request.method == "POST":
-        
         form = ContactForm(request.POST)
         if form.is_valid():
-            
-            form.save()
+            # ذخیره Contact در دیتابیس (فیلد captcha به طور خودکار نادیده گرفته می‌شود چون در مدل نیست)
+            contact = form.save()  # این یک instance از Contact را ذخیره می‌کند
             messages.success(request, "فرم با موفقیت ارسال شد!")
             return redirect('home:home')
-            
-            
-            
+        else:
+            messages.error(request, "لطفاً تمام فیلدها را به درستی پر کنید و کد امنیتی را وارد نمایید.")
+            return redirect('home:home')
     return redirect('home:home')
 
 def login_view(request:HttpRequest):

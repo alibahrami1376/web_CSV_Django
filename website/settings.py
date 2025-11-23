@@ -32,12 +32,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha', 
     'home',
     'blog',
     'projects'
@@ -57,6 +59,9 @@ ROOT_URLCONF = 'website.urls'
 
 LOGIN_URL = '/login/'
 
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
 
 TEMPLATES = [
     {

@@ -269,7 +269,7 @@
           </div>
           {% endfor %}
 
-          <button type="submit" class="btn btn-primary">
+          <button type="button" id="submitBtn" class="btn btn-primary" onclick="handleSubmitClick(event)">
             {{ content.contact.form.submit_label }}
           </button>
         </form>
@@ -278,9 +278,372 @@
   </section>
 </main>
 
+<!-- مودال کپچا -->
+<div id="captchaModal" class="captcha-modal" style="display: none;">
+  <div class="captcha-modal-overlay"></div>
+  <div class="captcha-modal-content">
+    <div class="captcha-modal-header">
+      <h3>تأیید امنیتی</h3>
+      <button type="button" class="captcha-modal-close" id="closeCaptchaModal">
+        <i data-feather="x"></i>
+      </button>
+    </div>
+    <div class="captcha-modal-body">
+      <p>لطفاً کد امنیتی زیر را وارد کنید:</p>
+      <div id="captchaFieldContainer">
+        {% if contact_form %}
+        {{ contact_form.captcha }}
+        {% else %}
+        <p style="color: red;">خطا: فرم کپچا یافت نشد. لطفاً صفحه را رفرش کنید.</p>
+        {% endif %}
+      </div>
+      <div class="captcha-modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelCaptchaBtn">انصراف</button>
+        <button type="button" class="btn btn-primary" id="confirmCaptchaBtn">تأیید و ارسال</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .captcha-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .captcha-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .captcha-modal-content {
+    position: relative;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+  }
+
+  .dark-theme .captcha-modal-content {
+    background: var(--surface-color);
+  }
+
+  .captcha-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .captcha-modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-color);
+  }
+
+  .captcha-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--text-secondary-color);
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .captcha-modal-close:hover {
+    color: var(--text-color);
+  }
+
+  .captcha-modal-body {
+    margin-top: 1rem;
+  }
+
+  .captcha-modal-body p {
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary-color);
+    text-align: center;
+  }
+
+  #captchaFieldContainer {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #captchaFieldContainer label {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+  }
+
+  #captchaFieldContainer input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.2em;
+  }
+
+  #captchaFieldContainer img {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+  }
+
+  .captcha-modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+
+  .captcha-modal-actions .btn {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .btn-secondary {
+    background-color: var(--text-secondary-color);
+    color: white;
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--text-color);
+    opacity: 0.9;
+  }
+</style>
+
 <script>
+  // تابع global برای handle کردن کلیک دکمه (fallback)
+  function handleSubmitClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const contactForm = document.getElementById('contactForm');
+    const captchaModal = document.getElementById('captchaModal');
+    
+    if (!contactForm || !captchaModal) {
+      console.error('فرم یا مودال یافت نشد');
+      return false;
+    }
+    
+    // حذف فیلدهای کپچا از اعتبارسنجی فرم (چون در مودال هستند)
+    const captchaInputs = contactForm.querySelectorAll('input[name^="captcha"]');
+    captchaInputs.forEach(function(input) {
+      input.removeAttribute('required');
+    });
+    
+    // بررسی اعتبار فرم (بدون فیلدهای کپچا)
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return false;
+    }
+    
+    // نمایش مودال
+    captchaModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // حذف required از فیلد کپچا در مودال
+    const captchaFieldContainer = document.getElementById('captchaFieldContainer');
+    if (captchaFieldContainer) {
+      const captchaInput = captchaFieldContainer.querySelector('input[name="captcha_1"]');
+      if (captchaInput) {
+        captchaInput.removeAttribute('required');
+      }
+    }
+    
+    // به‌روزرسانی آیکون‌های feather
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+    
+    return false;
+  }
+  
   (function() {
     'use strict';
+    
+    // مدیریت مودال کپچا
+    function initCaptchaModal() {
+      const contactForm = document.getElementById('contactForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const captchaModal = document.getElementById('captchaModal');
+      const closeCaptchaModal = document.getElementById('closeCaptchaModal');
+      const cancelCaptchaBtn = document.getElementById('cancelCaptchaBtn');
+      const confirmCaptchaBtn = document.getElementById('confirmCaptchaBtn');
+      const captchaFieldContainer = document.getElementById('captchaFieldContainer');
+      
+      // دیباگ: بررسی وجود المان‌ها
+      console.log('contactForm:', contactForm);
+      console.log('submitBtn:', submitBtn);
+      console.log('captchaModal:', captchaModal);
+      
+      if (!contactForm || !submitBtn || !captchaModal) {
+        console.error('برخی المان‌های مورد نیاز یافت نشدند!');
+        return;
+      }
+      
+      // حذف فیلدهای کپچا از فرم اصلی (اگر وجود داشته باشند)
+      const captchaInputsInForm = contactForm.querySelectorAll('input[name^="captcha"]');
+      captchaInputsInForm.forEach(function(input) {
+        input.removeAttribute('required');
+        // اگر در یک container خاص است، آن را حذف نکن (ممکن است در مودال باشد)
+        if (!input.closest('#captchaFieldContainer')) {
+          input.style.display = 'none';
+        }
+      });
+      
+      // نمایش مودال کپچا
+      function showCaptchaModal() {
+        captchaModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // حذف required از فیلد کپچا در مودال (چون در فرم اصلی نیست و باید به صورت دستی بررسی شود)
+        if (captchaFieldContainer) {
+          const captchaInput = captchaFieldContainer.querySelector('input[name="captcha_1"]');
+          if (captchaInput) {
+            captchaInput.removeAttribute('required');
+          }
+          // همچنین required را از فیلد hidden key هم بردار
+          const captchaKey = captchaFieldContainer.querySelector('input[name="captcha_0"]');
+          if (captchaKey) {
+            captchaKey.removeAttribute('required');
+          }
+        }
+        
+        // به‌روزرسانی آیکون‌های feather
+        if (typeof feather !== 'undefined') {
+          feather.replace();
+        }
+      }
+      
+      // بستن مودال کپچا
+      function hideCaptchaModal() {
+        captchaModal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+      
+      // ارسال فرم
+      function submitForm() {
+        // کپی کردن مقدار کپچا از مودال به فرم اصلی
+        // captcha_0: کلید مخفی، captcha_1: ورودی کاربر
+        const captchaKey = captchaFieldContainer.querySelector('input[name="captcha_0"]');
+        const captchaInput = captchaFieldContainer.querySelector('input[name="captcha_1"]');
+        
+        if (captchaKey && captchaInput) {
+          // ایجاد فیلدهای مخفی در فرم اصلی
+          let hiddenCaptcha0 = document.getElementById('hidden_captcha_0');
+          let hiddenCaptcha1 = document.getElementById('hidden_captcha_1');
+          
+          if (!hiddenCaptcha0) {
+            hiddenCaptcha0 = document.createElement('input');
+            hiddenCaptcha0.type = 'hidden';
+            hiddenCaptcha0.name = 'captcha_0';
+            hiddenCaptcha0.id = 'hidden_captcha_0';
+            contactForm.appendChild(hiddenCaptcha0);
+          }
+          
+          if (!hiddenCaptcha1) {
+            hiddenCaptcha1 = document.createElement('input');
+            hiddenCaptcha1.type = 'hidden';
+            hiddenCaptcha1.name = 'captcha_1';
+            hiddenCaptcha1.id = 'hidden_captcha_1';
+            contactForm.appendChild(hiddenCaptcha1);
+          }
+          
+          hiddenCaptcha0.value = captchaKey.value;
+          hiddenCaptcha1.value = captchaInput.value;
+        }
+        
+        hideCaptchaModal();
+        contactForm.submit();
+      }
+      
+      // رویداد کلیک روی دکمه ارسال (اگر onclick کار نکرد)
+      submitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('دکمه ارسال کلیک شد (از event listener)');
+        
+        // حذف فیلدهای کپچا از اعتبارسنجی فرم (چون در مودال هستند)
+        const captchaInputs = contactForm.querySelectorAll('input[name^="captcha"]');
+        captchaInputs.forEach(function(input) {
+          input.removeAttribute('required');
+        });
+        
+        // بررسی اعتبار فرم (بدون فیلدهای کپچا)
+        if (!contactForm.checkValidity()) {
+          console.log('فرم معتبر نیست');
+          contactForm.reportValidity();
+          return;
+        }
+        
+        console.log('نمایش مودال کپچا');
+        showCaptchaModal();
+      });
+      
+      // بستن مودال با کلیک روی overlay
+      captchaModal.querySelector('.captcha-modal-overlay').addEventListener('click', hideCaptchaModal);
+      
+      // بستن مودال با کلیک روی دکمه بستن
+      if (closeCaptchaModal) {
+        closeCaptchaModal.addEventListener('click', hideCaptchaModal);
+      }
+      
+      // بستن مودال با کلیک روی دکمه انصراف
+      if (cancelCaptchaBtn) {
+        cancelCaptchaBtn.addEventListener('click', hideCaptchaModal);
+      }
+      
+      // تأیید و ارسال فرم
+      if (confirmCaptchaBtn) {
+        confirmCaptchaBtn.addEventListener('click', function() {
+          const captchaInput = captchaFieldContainer.querySelector('input[name="captcha_1"]');
+          if (!captchaInput || !captchaInput.value.trim()) {
+            alert('لطفاً کد امنیتی را وارد کنید.');
+            return;
+          }
+          submitForm();
+        });
+      }
+      
+      // بستن مودال با کلید ESC
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && captchaModal.style.display === 'flex') {
+          hideCaptchaModal();
+        }
+      });
+    }
     
     function initLanguageCards() {
       const languageItems = document.querySelectorAll('.language-item');
@@ -362,11 +725,27 @@
     }
     
     // اجرا بعد از لود شدن صفحه
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initLanguageCards);
-    } else {
+    function initializeAll() {
+      console.log('شروع مقداردهی اولیه...');
+      initCaptchaModal();
       initLanguageCards();
     }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeAll);
+    } else {
+      // اگر DOM از قبل لود شده، مستقیماً اجرا کن
+      setTimeout(initializeAll, 100);
+    }
+    
+    // همچنین بعد از لود کامل صفحه هم اجرا کن (برای اطمینان)
+    window.addEventListener('load', function() {
+      console.log('صفحه کاملاً لود شد');
+      if (!document.getElementById('submitBtn').onclick) {
+        console.log('مقداردهی مجدد...');
+        initCaptchaModal();
+      }
+    });
   })();
 </script>
 
