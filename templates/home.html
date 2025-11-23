@@ -115,28 +115,68 @@
   <!-- Projects Section -->
   <section id="projects" class="section">
     <div class="container">
-      <h2 class="section-title">{{ content.projects.title }}</h2>
+      <h2 class="section-title">پروژه ها</h2>
       <div class="projects-grid">
-        {% for project in content.projects.items %}
+        {% for project in projects %}
         <div class="project-card">
           <div class="project-image">
-            <img src="{{ project.image }}" alt="{{ project.title }}" />
+            {% if project.image %}
+            <img src="{{ project.image.url }}" alt="{{ project.title }}" />
+            {% else %}
+            <div class="project-image-placeholder">
+              <i data-feather="image"></i>
+            </div>
+            {% endif %}
+            {% if project.featured %}
+            <div class="project-featured">
+              <i data-feather="star"></i>
+              <span>ویژه</span>
+            </div>
+            {% endif %}
+            <div class="project-status project-status-{{ project.status }}">
+              <i data-feather="{% if project.status == 'completed' %}check-circle{% elif project.status == 'in_progress' %}clock{% else %}pause-circle{% endif %}"></i>
+              <span>{{ project.get_status_display }}</span>
+            </div>
           </div>
           <div class="project-content">
             <h3>{{ project.title }}</h3>
             <p>{{ project.description }}</p>
             <div class="project-tags">
-              {% for tag in project.tags %}
-              <span>{{ tag }}</span>
+              {% for cat in project.category.all %}
+              <span>{{ cat.name }}</span>
               {% endfor %}
             </div>
-            <a href="{{ project.link }}" class="project-link"
-              >{{ content.projects.link_label }}
-              <i data-feather="arrow-left"></i
-            ></a>
+            <div class="project-links">
+              {% if project.website_url %}
+              <a href="{{ project.website_url }}" class="project-link project-link-demo" target="_blank" rel="noopener noreferrer">
+                مشاهده وب‌سایت
+                <i data-feather="arrow-left"></i>
+              </a>
+              {% endif %}
+              {% if project.github_url %}
+              <a href="{{ project.github_url }}" class="project-link project-link-github" target="_blank" rel="noopener noreferrer">
+                GitHub
+                <i data-feather="github"></i>
+              </a>
+              {% endif %}
+              {% if project.demo_url %}
+              <a href="{{ project.demo_url }}" class="project-link project-link-demo" target="_blank" rel="noopener noreferrer">
+                دمو
+                <i data-feather="external-link"></i>
+              </a>
+              {% endif %}
+            </div>
           </div>
         </div>
+        {% empty %}
+        <p style="text-align: center; grid-column: 1 / -1; padding: 2rem; color: var(--text-secondary-color);">هیچ پروژه‌ای یافت نشد.</p>
         {% endfor %}
+      </div>
+      <div class="projects-view-all">
+        <a href="{% url 'projects:projects_list' %}" class="view-all-link">
+          <span>مشاهده همه پروژه‌ها</span>
+          <i data-feather="arrow-left"></i>
+        </a>
       </div>
     </div>
   </section>

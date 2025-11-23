@@ -22,7 +22,9 @@ HOME_CONTENT = _load_home_content()
 
 
 def home_page(request:HttpRequest):
-    projects = Projects.objects.all()
+    # دریافت پروژه‌ها از دیتابیس - ابتدا پروژه‌های ویژه، سپس بقیه
+    projects = Projects.objects.all().order_by('-featured', '-created_date')[:3]  # نمایش حداکثر 3 پروژه
+    
     return render(request, 'home.html', {'content': HOME_CONTENT,'projects':projects})
 
 def save_contact(request:HttpRequest):
