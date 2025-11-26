@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'captcha', 
     'home',
     'blog',
-    'projects'
+    'projects',
 ]
 
 SITE_ID = config("SITE_ID", cast=int, default=1)
@@ -63,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'website.middleware.RequestLoggingMiddleware',  # Custom logging middleware
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -94,16 +95,24 @@ WSGI_APPLICATION = 'website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": config("PGDB_ENGINE", default="django.db.backends.postgresql"),
-        "NAME": config("PGDB_NAME", default="postgres"),
-        "USER": config("PGDB_USER", default="postgres"),
-        "PASSWORD": config("PGDB_PASS", default="postgres"),
-        "HOST": config("PGDB_HOST", default="db"),
-        "PORT": config("PGDB_PORT", cast=int, default=5432),
+if DEBUG:
+        DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": "mydatabase",
+        }
+    }   
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": config("PGDB_ENGINE", default="django.db.backends.postgresql"),
+            "NAME": config("PGDB_NAME", default="postgres"),
+            "USER": config("PGDB_USER", default="postgres"),
+            "PASSWORD": config("PGDB_PASS", default="postgres"),
+            "HOST": config("PGDB_HOST", default="db"),
+            "PORT": config("PGDB_PORT", cast=int, default=5432),
+        }
     }
-}
 
 
 # Password validation
@@ -246,3 +255,56 @@ if SHOW_DEBUGGER_TOOLBAR:
         "127.0.0.1",
         "10.0.2.2",
     ]
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'home': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'blog': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'projects': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'website': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

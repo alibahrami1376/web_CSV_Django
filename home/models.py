@@ -1,7 +1,10 @@
+import logging
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+logger = logging.getLogger(__name__)
 
 class Contact(models.Model):
     name = models.CharField(max_length=255)
@@ -38,10 +41,22 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        try:
+            logger.info(f'Creating profile for new user: {instance.username}')
+            Profile.objects.create(user=instance)
+            logger.info(f'Profile created successfully for user: {instance.username}')
+            logger.info('Everything is OK!')
+        except Exception as e:
+            logger.error(f'Error creating profile for user {instance.username}: {e}')
         
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
     if not created:
         if hasattr(instance, 'profile'):
-            instance.profile.save(update_fields=[])
+            try:
+                logger.info(f'Saving profile for user: {instance.username}')
+                instance.profile.save(update_fields=[])
+                logger.info('Profile saved successfully!')
+                logger.info('Everything is OK!')
+            except Exception as e:
+                logger.error(f'Error saving profile for user {instance.username}: {e}')
