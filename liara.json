@@ -1,6 +1,6 @@
 {
   "platform": "django",
-  "app": "mysite-alibahrami",
+  "app": "silly-tharp-f2wxuiaux",
   "port": 8000,
   "django": {
     "pythonVersion": "3.12",
