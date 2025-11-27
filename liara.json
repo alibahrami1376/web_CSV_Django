@@ -1,14 +1,15 @@
 {
   "platform": "django",
+  "app": "mysite-alibahrami",
+  "port": 8000,
   "django": {
-    "pythonVersion": "3.9",
+    "pythonVersion": "3.12",
     "collectStatic": true,
     "compileMessages": false,
     "modifySettings": true,
     "timezone": "Asia/Tehran"
     
   },
-  "app": "mysite-alibahrami",
   "disks": [
     {
       "name": "static",
