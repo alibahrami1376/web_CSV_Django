@@ -4,7 +4,7 @@
     "banner_image": "media/profiles/DEFALTPR.JPG",
     "title": "سلام، من علی بهرامی هستم",
     "roles": [
-      " bakend developer"
+      " Bak-End Developer"
     ],
     "buttons": [
 
@@ -22,11 +22,12 @@
   },
   "about": {
     "title": "بیوگرافی",
-    "paragraphs": [
-      " من یک توسعه دهنده پرشور وخلاق هستم .من از مسیر کارشناس الکترونیک شروع کرده ام و بعد از کاربا های امبدد . دوست داشتم با پایتون و پروژه های پایتونی کار کنم و انجام دهم ",
-      "من به کیفیت کد، بهترین شیوه‌های توسعه و تجربه کاربری عالی متعهد هستم. همیشه در حال یادگیری تکنولوژی‌های جدید و بهبود مهارت‌هایم هستم."
-      ]
-    },
+    "paragraphs": ["من یک توسعه دهنده پرشور وخلاق هستم.",
+      "مسیر من با تحصیل در رشته‌ی مهندسی پزشکی در مقطع کارشناسی شروع شد و با فعالیت در حوزه الکترونیک ادامه پیدا کرد.",
+      "اما هیچ کدوم مانع از علاقه‌ی من به برنامه‌نویسی نشد و در نهایت من مسیر خودم رو از دل کد زدن پیدا کردم."
+
+    ]
+  },
   "education": {
     "title": "تحصیلات",
     "items": [
@@ -72,33 +73,21 @@
     "items": [
       {
         "icon": "code",
-        "title": "توسعه Frontend",
-        "description": "React, Vue.js, TypeScript, HTML5, CSS3, JavaScript ES6+",
-        "tags": ["React", "Vue.js", "TypeScript", "Tailwind CSS"]
+        "title": "Fronted",
+        "description": "HTML,CSS",
+        "tags": ["HTML", "CSS"]
       },
       {
         "icon": "server",
-        "title": "توسعه Backend",
-        "description": "Node.js, Express, MongoDB, PostgreSQL, RESTful APIs",
-        "tags": ["Node.js", "Express", "MongoDB", "PostgreSQL"]
-      },
-      {
-        "icon": "smartphone",
-        "title": "توسعه موبایل",
-        "description": "React Native, Flutter, iOS, Android",
-        "tags": ["React Native", "Flutter", "iOS", "Android"]
-      },
-      {
-        "icon": "layout",
-        "title": "طراحی UI/UX",
-        "description": "Figma, Adobe XD, Prototyping, Design Systems",
-        "tags": ["Figma", "Adobe XD", "Prototyping", "Design Systems"]
+        "title": "Backend",
+        "description": ", MongoDB, PostgreSQL, RESTful APIs",
+        "tags": ["MongoDB", "PostgreSQL"]
       },
       {
         "icon": "cloud",
         "title": "DevOps & Cloud",
-        "description": "AWS, Docker, CI/CD, Git, Linux",
-        "tags": ["AWS", "Docker", "CI/CD", "Git"]
+        "description": " Docker, CI/CD, Git, Linux",
+        "tags": [ "Docker", "CI/CD", "Git"]
       },
       {
         "icon": "database",
@@ -116,12 +105,12 @@
       {
         "icon": "mail",
         "label": "ایمیل",
-        "value": "example@email.com"
+        "value": "alifbahrami13766@email.com"
       },
       {
         "icon": "phone",
-        "label": "تلفن",
-        "value": "+98 912 345 6789"
+        "label": "Telegram",
+        "value":  "@ali_bahramiiii"
       },
       {
         "icon": "map-pin",
@@ -131,12 +120,12 @@
       {
         "icon": "linkedin",
         "label": "LinkedIn",
-        "value": "linkedin.com/in/yourprofile"
+        "value": "linkedin.com/in/ali-bahrami-90a296168/"
       },
       {
         "icon": "github",
         "label": "GitHub",
-        "value": "github.com/yourusername"
+        "value": "github.com/alibahrami1376"
       }
     ],
     "form": {
