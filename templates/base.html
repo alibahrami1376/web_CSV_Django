@@ -42,19 +42,42 @@
   </head>
 
   <body class="dark-theme">
-    {% if user.is_authenticated %}
-      {% if user.profile %}
-        <portfolio-header
-          data-is-auth="true"
-          data-avatar="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}"
-          data-profile-url="{% url 'home:profile' %}"
-        ></portfolio-header>
+    {% block header %}
+      {% if user.is_authenticated %}
+        {% if user.profile %}
+          <portfolio-header
+            data-is-auth="true"
+            data-avatar="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}"
+            data-profile-url="{% url 'home:profile' %}"
+            data-variant="simple"
+            data-home-url="{% url 'home:home' %}"
+            data-projects-url="{% url 'projects:projects_list' %}"
+            data-blog-url="{% url 'blog:blog_home' %}"
+            data-logo-url="{% url 'home:home' %}"
+          ></portfolio-header>
+        {% else %}
+          <portfolio-header
+            data-is-auth="true"
+            data-variant="simple"
+            data-home-url="{% url 'home:home' %}"
+            data-projects-url="{% url 'projects:projects_list' %}"
+            data-blog-url="{% url 'blog:blog_home' %}"
+            data-logo-url="{% url 'home:home' %}"
+          ></portfolio-header>
+        {% endif %}
       {% else %}
-        <portfolio-header data-is-auth="true"></portfolio-header>
+        <portfolio-header
+          data-is-auth="false"
+          data-variant="simple"
+          data-home-url="{% url 'home:home' %}"
+          data-projects-url="{% url 'projects:projects_list' %}"
+          data-blog-url="{% url 'blog:blog_home' %}"
+          data-logo-url="{% url 'home:home' %}"
+        ></portfolio-header>
       {% endif %}
-    {% else %}
-      <portfolio-header data-is-auth="false"></portfolio-header>
-    {% endif %} {%block content %} {% endblock %}
+    {% endblock %}
+
+    {% block content %} {% endblock %}
     <portfolio-footer></portfolio-footer>
     <script src="{% static 'js/header.js'%}"></script>
     <script src="{% static 'js/footer.js'%}"></script>

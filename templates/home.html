@@ -1,4 +1,56 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block header %}
+  {% if user.is_authenticated %}
+    {% if user.profile %}
+      <portfolio-header
+        data-is-auth="true"
+        data-avatar="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}"
+        data-profile-url="{% url 'home:profile' %}"
+        data-variant="home"
+        data-home-url="#home"
+        data-about-url="#about"
+        data-education-url="#education"
+        data-languages-url="#languages"
+        data-skills-url="#skills"
+        data-projects-url="#projects"
+        data-contact-url="#contact"
+        data-blog-url="{% url 'blog:blog:home' %}"
+        data-logo-url="#home"
+      ></portfolio-header>
+    {% else %}
+      <portfolio-header
+        data-is-auth="true"
+        data-variant="home"
+        data-home-url="#home"
+        data-about-url="#about"
+        data-education-url="#education"
+        data-languages-url="#languages"
+        data-skills-url="#skills"
+        data-projects-url="#projects"
+        data-contact-url="#contact"
+        data-blog-url="{% url 'blog:blog:home' %}"
+        data-logo-url="#home"
+      ></portfolio-header>
+    {% endif %}
+  {% else %}
+    <portfolio-header
+      data-is-auth="false"
+      data-variant="home"
+      data-home-url="#home"
+      data-about-url="#about"
+      data-education-url="#education"
+      data-languages-url="#languages"
+      data-skills-url="#skills"
+      data-projects-url="#projects"
+      data-contact-url="#contact"
+      data-blog-url="{% url 'blog:blog_home' %}"
+      data-logo-url="#home"
+    ></portfolio-header>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
 
 <main>
   <!-- Home Section -->
@@ -21,9 +73,14 @@
       </div>
       <div class="hero-buttons">
         {% for button in content.hero.buttons %}
-        <a href="{{ button.href }}" class="btn btn-{{ button.variant }}"
-          >{{ button.label }}</a
-        >
+        <a href="{{ button.href }}" class="btn btn-{{ button.variant }}">
+          <span>{{ button.label }}</span>
+          {% if button.variant == 'primary' %}
+          <i data-feather="mail"></i>
+          {% else %}
+          <i data-feather="briefcase"></i>
+          {% endif %}
+        </a>
         {% endfor %}
       </div>
     </div>
@@ -282,7 +339,8 @@
           {% endfor %}
 
           <button type="button" id="submitBtn" class="btn btn-primary" onclick="handleSubmitClick(event)">
-            {{ content.contact.form.submit_label }}
+            <span>{{ content.contact.form.submit_label }}</span>
+            <i data-feather="send"></i>
           </button>
         </form>
       </div>
@@ -310,8 +368,14 @@
         {% endif %}
       </div>
       <div class="captcha-modal-actions">
-        <button type="button" class="btn btn-secondary" id="cancelCaptchaBtn">انصراف</button>
-        <button type="button" class="btn btn-primary" id="confirmCaptchaBtn">تأیید و ارسال</button>
+        <button type="button" class="btn btn-secondary" id="cancelCaptchaBtn">
+          <span>انصراف</span>
+          <i data-feather="x"></i>
+        </button>
+        <button type="button" class="btn btn-primary" id="confirmCaptchaBtn">
+          <span>تأیید و ارسال</span>
+          <i data-feather="check"></i>
+        </button>
       </div>
     </div>
   </div>

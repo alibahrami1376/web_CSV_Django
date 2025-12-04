@@ -117,9 +117,22 @@ class PortfolioFooter extends HTMLElement {
           color: #888;
           transition: color 0.3s ease;
         }
-        .contact-item i {
+        .contact-item i,
+        .contact-item svg {
           color: #666;
           transition: color 0.3s ease;
+          width: 18px;
+          height: 18px;
+          flex-shrink: 0;
+        }
+        .social-link svg {
+          width: 20px;
+          height: 20px;
+          stroke: currentColor;
+          fill: none;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
         }
         .contact-item:hover {
           color: #cccccc;
@@ -164,20 +177,33 @@ class PortfolioFooter extends HTMLElement {
         <div class="container">
           <div class="footer-content">
             <div class="footer-column">
-              <h3>پورتفولیو</h3>
-              <p>ایجاد تجربیات دیجیتالی استثنایی که سریع، قابل دسترس، جذاب و واکنش‌گرا هستند.</p>
+              <h3>Ali Bahrami</h3>
+              <p>شبکه های اجتماعی</p>
               <div class="social-links">
-                <a href="#" class="social-link" aria-label="GitHub">
-                  <i data-feather="github"></i>
+                <a href="https://github.com/alibahrami1376" class="social-link" aria-label="GitHub">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
                 </a>
-                <a href="#" class="social-link" aria-label="LinkedIn">
-                  <i data-feather="linkedin"></i>
+                <a href="https://www.linkedin.com/in/ali-bahrami-90a296168/" class="social-link" aria-label="LinkedIn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                  </svg>
                 </a>
-                <a href="#" class="social-link" aria-label="Twitter">
-                  <i data-feather="twitter"></i>
+                <a href="https://t.me/ali_bahramiiii" class="social-link" aria-label="Telegram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
                 </a>
-                <a href="#" class="social-link" aria-label="Instagram">
-                  <i data-feather="instagram"></i>
+                <a href="https://instagram.com/__alii_bahrami__" class="social-link" aria-label="Instagram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
                 </a>
               </div>
             </div>
@@ -185,26 +211,30 @@ class PortfolioFooter extends HTMLElement {
               <h3>لینک‌های سریع</h3>
               <ul class="footer-links">
                 <li><a href="#home" class="footer-link">خانه</a></li>
-                <li><a href="#about" class="footer-link">بیوگرافی</a></li>
-                <li><a href="#education" class="footer-link">تحصیلات</a></li>
-                <li><a href="#languages" class="footer-link">زبان‌ها</a></li>
-                <li><a href="#skills" class="footer-link">توانایی‌ها</a></li>
+                <li><a href="/blog/" class="footer-link"> وبلاگ</a></li>
                 <li><a href="#projects" class="footer-link">پروژه‌ها</a></li>
-                <li><a href="#contact" class="footer-link">تماس</a></li>
               </ul>
             </div>
             <div class="footer-column contact-info">
               <h3>اطلاعات تماس</h3>
               <div class="contact-item">
-                <i data-feather="mail"></i>
-                <span>example@email.com</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span>alifbahrami13766@gmail.com</span>
               </div>
               <div class="contact-item">
-                <i data-feather="phone"></i>
-                <span>+98 912 345 6789</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <span>@ali_bahramiiii</span>
               </div>
               <div class="contact-item">
-                <i data-feather="map-pin"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
                 <span>تهران، ایران</span>
               </div>
             </div>
@@ -216,12 +246,7 @@ class PortfolioFooter extends HTMLElement {
       </footer>
     `;
 
-    // Initialize Feather icons
-    setTimeout(() => {
-      if (typeof feather !== 'undefined') {
-        feather.replace();
-      }
-    }, 100);
+    // SVG icons are already embedded, no need for Feather initialization
   }
 }
 

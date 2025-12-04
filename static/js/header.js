@@ -6,6 +6,37 @@ class PortfolioHeader extends HTMLElement {
     const profileUrl = this.getAttribute('data-profile-url') || '/profile/';
     const loginUrl = this.getAttribute('data-login-url') || '/login/';
 
+    // خواندن URL های منو از attribute ها (قابل تنظیم در هر صفحه)
+    const homeUrl = this.getAttribute('data-home-url') || '#home';
+    const aboutUrl = this.getAttribute('data-about-url') || '#about';
+    const educationUrl = this.getAttribute('data-education-url') || '#education';
+    const languagesUrl = this.getAttribute('data-languages-url') || '#languages';
+    const skillsUrl = this.getAttribute('data-skills-url') || '#skills';
+    const projectsUrl = this.getAttribute('data-projects-url') || '#projects';
+    const contactUrl = this.getAttribute('data-contact-url') || '#contact';
+    const blogUrl = this.getAttribute('data-blog-url') || '/blog/';
+    const logoUrl = this.getAttribute('data-logo-url') || homeUrl;
+    const variant = this.getAttribute('data-variant') || 'home'; // 'home' یا 'simple'
+
+    // تولید HTML آیتم‌های منو بر اساس نوع هدر
+    const navLinksHtml =
+      variant === 'home'
+        ? `
+              <li><a href="${homeUrl}" class="nav-link active">خانه</a></li>
+              <li><a href="${aboutUrl}" class="nav-link">بیوگرافی</a></li>
+              <li><a href="${educationUrl}" class="nav-link">تحصیلات</a></li>
+              <li><a href="${languagesUrl}" class="nav-link">زبان‌ها</a></li>
+              <li><a href="${skillsUrl}" class="nav-link">توانایی‌ها</a></li>
+              <li><a href="${projectsUrl}" class="nav-link">پروژه‌ها</a></li>
+              <li><a href="${blogUrl}" class="nav-link">وبلاگ</a></li>
+              <li><a href="${contactUrl}" class="nav-link">تماس</a></li>
+            `
+        : `
+              <li><a href="${homeUrl}" class="nav-link">خانه</a></li>
+              <li><a href="${projectsUrl}" class="nav-link">پروژه‌ها</a></li>
+              <li><a href="${blogUrl}" class="nav-link">وبلاگ</a></li>
+            `;
+
     // بخش ورود/پروفایل برای گوشه راست (کنار دکمه تم)
     const authButton = isAuth
       ? avatarUrl
@@ -344,16 +375,9 @@ class PortfolioHeader extends HTMLElement {
       <header class="header-container">
         <div class="container">
           <nav>
-            <a href="#home" class="logo">Ali Bahrami</a>
+            <a href="${logoUrl}" class="logo">Ali Bahrami</a>
             <ul class="nav-links">
-              <li><a href="#home" class="nav-link active">خانه</a></li>
-              <li><a href="#about" class="nav-link">بیوگرافی</a></li>
-              <li><a href="#education" class="nav-link">تحصیلات</a></li>
-              <li><a href="#languages" class="nav-link">زبان‌ها</a></li>
-              <li><a href="#skills" class="nav-link">توانایی‌ها</a></li>
-              <li><a href="#projects" class="nav-link">پروژه‌ها</a></li>
-              <li><a href="/blog/" class="nav-link">وبلاگ</a></li>
-              <li><a href="#contact" class="nav-link">تماس</a></li>
+              ${navLinksHtml}
             </ul>
             <div class="header-right">
               ${authButton}
