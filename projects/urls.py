@@ -7,5 +7,5 @@ urlpatterns = [
     path('', projects_list, name='projects_list'),
     path('category/<str:category_slug>/', projects_list, name='projects_by_category'),
     path('<str:project_slug>/', project_detail, name='project_detail'),
-    path('id/<int:project_id>/', project_detail, name='project_detail_by_id'),  # پشتیبانی از id برای سازگاری
+    path('id/<int:project_id>/', project_detail, name='project_detail_by_id'),  
 ]

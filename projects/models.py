@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django_quill.fields import QuillField
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='نام دسته‌بندی')
@@ -22,14 +24,14 @@ class Projects(models.Model):
         ('on_hold', 'متوقف شده'),
     ]
     
-    title = models.CharField(max_length=255, verbose_name='عنوان')
-    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True, verbose_name='اسلاگ')
-    description = models.TextField(verbose_name='توضیحات کوتاه')
-    content = models.TextField(blank=True, null=True, verbose_name='محتوای کامل')
-    image = models.ImageField(upload_to='projects/', default='projects/default.jpg', blank=True, null=True, verbose_name='تصویر')
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = models.TextField()
+    content = QuillField()
+    image = models.ImageField(upload_to='projects/', default='projects/default.jpg', blank=True, null=True)
     category = models.ManyToManyField(Category, related_name='projects', verbose_name='دسته‌بندی')
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='نویسنده')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_progress', verbose_name='وضعیت')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_progress')
     github_url = models.URLField(blank=True, null=True, verbose_name='لینک GitHub')
     demo_url = models.URLField(blank=True, null=True, verbose_name='لینک دمو')
     website_url = models.URLField(blank=True, null=True, verbose_name='لینک وب‌سایت')
@@ -40,15 +42,12 @@ class Projects(models.Model):
     published_date = models.DateTimeField(blank=True, null=True, verbose_name='تاریخ انتشار')
     
     class Meta:
-        verbose_name = 'پروژه'
-        verbose_name_plural = 'پروژه‌ها'
         ordering = ['-created_date']
     
     def __str__(self):
         return self.title
     
     def get_status_display_class(self):
-        """برگرداندن کلاس CSS برای وضعیت"""
         status_classes = {
             'completed': 'status-completed',
             'in_progress': 'status-in-progress',
@@ -57,10 +56,7 @@ class Projects(models.Model):
         return status_classes.get(self.status, '')
     
     def get_absolute_url(self):
-        """برگرداندن URL کامل پروژه"""
-        from django.urls import reverse
         return reverse('projects:project_detail', kwargs={'project_slug': self.slug})
     
     def get_categories_list(self):
-        """برگرداندن لیست دسته‌بندی‌ها به صورت رشته"""
         return ', '.join([cat.name for cat in self.category.all()])      

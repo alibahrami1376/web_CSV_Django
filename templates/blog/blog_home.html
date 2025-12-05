@@ -129,7 +129,11 @@
                                         <h3>{{ post.title }}</h3>
                                     </a>
                                     <p class="excert">
-                                        {{post.content|truncatewords:50}}
+                                        {% if post.content|safe_quill_html %}
+                                            {{post.content|safe_quill_html|striptags|truncatewords:50}}
+                                        {% else %}
+                                            محتوایی برای نمایش وجود ندارد.
+                                        {% endif %}
                                     </p>
                                     <a href="{% url 'blog:blog_detail' post.id %}" class="primary-btn">
                                       <span>ادامه مطلب</span>

@@ -29,11 +29,15 @@
                     </div>
                     
                     <div class="blog-post-content">
-                        {{ post.content|linebreaks }}
+                        {% if post.content|safe_quill_html %}
+                            {{ post.content|safe_quill_html|safe }}
+                        {% else %}
+                            <p>محتوایی برای نمایش وجود ندارد.</p>
+                        {% endif %}
                     </div>
                     
                     <div class="blog-post-footer">
-                        <a href="{% url 'blog_home' %}" class="btn btn-secondary">
+                        <a href="{% url 'blog:blog_home' %}" class="btn btn-secondary">
                             <i data-feather="arrow-right"></i>
                             بازگشت به لیست وبلاگ
                         </a>
@@ -47,7 +51,7 @@
                             {% for related_post in related_posts %}
                                 <div class="related-post-item">
                                     <h4>
-                                        <a href="{% url 'blog_detail' related_post.id %}">{{ related_post.title }}</a>
+                                        <a href="{% url 'blog:blog_detail' related_post.id %}">{{ related_post.title }}</a>
                                     </h4>
                                     <div class="related-post-meta">
                                         <span>

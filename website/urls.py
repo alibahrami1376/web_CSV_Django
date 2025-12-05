@@ -19,18 +19,37 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
+from django.urls import path
+from home.sitemaps import StaticViewSitemap
+from blog.sitemaps import BlogSitemap
+from projects.sitemaps import ProjectSitemap
+
 
 logger = logging.getLogger(__name__)
 logger.info('URL configuration loaded')
 logger.info('Everything is OK!')
+
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'blog': BlogSitemap,
+    'projects':ProjectSitemap   
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("home.urls", namespace="home")),
     path('blog/',include('blog.urls', namespace='blog')),
     path('projects/',include('projects.urls', namespace='projects')),
-    path('captcha/', include('captcha.urls')) 
+    path('captcha/', include('captcha.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap'),
+    path('robots.txt', include('robots.urls')),
+    path('__debug__/', include('debug_toolbar.urls'))
 ]
+
+
+
 
 # فقط در حالت development static files را serve کن
 if settings.DEBUG:

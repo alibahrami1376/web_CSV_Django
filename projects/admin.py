@@ -1,5 +1,7 @@
 from django.contrib import admin
 from projects.models import Projects, Category
+from django_quill.forms import QuillFormField
+from django.db import models  
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -11,6 +13,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Projects)
 class ProjectsAdmin(admin.ModelAdmin):
+    
+    formfield_overrides = {models.TextField: {"form_class": QuillFormField},}
     list_display = ('title', 'status', 'featured', 'view_count', 'author', 'created_date')
     list_filter = ('status', 'featured', 'category', 'created_date')
     search_fields = ('title', 'description', 'content')
