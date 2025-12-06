@@ -45,18 +45,9 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', include('robots.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
+    
 ]
 
-# Test error pages (only in DEBUG mode for testing)
-if settings.DEBUG:
-    from website.error_views import error_400, error_403, error_404, error_500
-    urlpatterns += [
-        path('test-400/', lambda r: error_400(r, None)),
-        path('test-403/', lambda r: error_403(r, None)),
-        path('test-404/', lambda r: error_404(r, None)),
-        path('test-500/', error_500),
-    ]
 
 
 
@@ -67,6 +58,18 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     logger.info('Static files configuration completed!')
     logger.info('Everything is OK!')
+    
+    # Test error pages (only in DEBUG mode for testing)
+if settings.DEBUG:
+    from website.error_views import error_400, error_403, error_404, error_500
+    urlpatterns += [
+        path('test-400/', lambda r: error_400(r, None)),
+        path('test-403/', lambda r: error_403(r, None)),
+        path('test-404/', lambda r: error_404(r, None)),
+        path('test-500/', error_500),
+        path('__debug__/', include('debug_toolbar.urls')),
+    ]
+
 
 
 handler400 = "website.error_views.error_400"  # bad_request
