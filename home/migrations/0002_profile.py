@@ -8,30 +8,86 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0001_initial'),
+        ("home", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('avatar', models.ImageField(blank=True, default='profiles/default.png', null=True, upload_to='profiles/')),
-                ('bio', models.TextField(blank=True, max_length=500, null=True, verbose_name='بیوگرافی')),
-                ('phone', models.CharField(blank=True, max_length=20, null=True, verbose_name='شماره تماس')),
-                ('location', models.CharField(blank=True, max_length=100, null=True, verbose_name='موقعیت')),
-                ('website', models.URLField(blank=True, null=True, verbose_name='وب\u200cسایت')),
-                ('github', models.CharField(blank=True, max_length=100, null=True, verbose_name='GitHub')),
-                ('linkedin', models.CharField(blank=True, max_length=100, null=True, verbose_name='LinkedIn')),
-                ('twitter', models.CharField(blank=True, max_length=100, null=True, verbose_name='Twitter')),
-                ('created_date', models.DateTimeField(auto_now_add=True)),
-                ('updated_date', models.DateTimeField(auto_now=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "avatar",
+                    models.ImageField(
+                        blank=True,
+                        default="profiles/default.png",
+                        null=True,
+                        upload_to="profiles/",
+                    ),
+                ),
+                (
+                    "bio",
+                    models.TextField(
+                        blank=True, max_length=500, null=True, verbose_name="بیوگرافی"
+                    ),
+                ),
+                (
+                    "phone",
+                    models.CharField(
+                        blank=True, max_length=20, null=True, verbose_name="شماره تماس"
+                    ),
+                ),
+                (
+                    "location",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="موقعیت"
+                    ),
+                ),
+                (
+                    "website",
+                    models.URLField(blank=True, null=True, verbose_name="وب\u200cسایت"),
+                ),
+                (
+                    "github",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="GitHub"
+                    ),
+                ),
+                (
+                    "linkedin",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="LinkedIn"
+                    ),
+                ),
+                (
+                    "twitter",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Twitter"
+                    ),
+                ),
+                ("created_date", models.DateTimeField(auto_now_add=True)),
+                ("updated_date", models.DateTimeField(auto_now=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="profile",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'پروفایل',
-                'verbose_name_plural': 'پروفایل\u200cها',
+                "verbose_name": "پروفایل",
+                "verbose_name_plural": "پروفایل\u200cها",
             },
         ),
     ]

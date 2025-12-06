@@ -14,9 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 import logging
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
@@ -27,49 +28,50 @@ from projects.sitemaps import ProjectSitemap
 
 
 logger = logging.getLogger(__name__)
-logger.info('URL configuration loaded')
-logger.info('Everything is OK!')
+logger.info("URL configuration loaded")
+logger.info("Everything is OK!")
 
 
 sitemaps = {
-    'static': StaticViewSitemap,
-    'blog': BlogSitemap,
-    'projects':ProjectSitemap   
+    "static": StaticViewSitemap,
+    "blog": BlogSitemap,
+    "projects": ProjectSitemap,
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path("", include("home.urls", namespace="home")),
-    path('blog/',include('blog.urls', namespace='blog')),
-    path('projects/',include('projects.urls', namespace='projects')),
-    path('captcha/', include('captcha.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap'),
-    path('robots.txt', include('robots.urls')),
-    
+    path("blog/", include("blog.urls", namespace="blog")),
+    path("projects/", include("projects.urls", namespace="projects")),
+    path("captcha/", include("captcha.urls")),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+    path("robots.txt", include("robots.urls")),
 ]
 
 
-
-
-
 if settings.DEBUG:
-    logger.info('DEBUG mode: Adding static and media file serving')
+    logger.info("DEBUG mode: Adding static and media file serving")
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    logger.info('Static files configuration completed!')
-    logger.info('Everything is OK!')
-    
+    logger.info("Static files configuration completed!")
+    logger.info("Everything is OK!")
+
     # Test error pages (only in DEBUG mode for testing)
 if settings.DEBUG:
     from website.error_views import error_400, error_403, error_404, error_500
-    urlpatterns += [
-        path('test-400/', lambda r: error_400(r, None)),
-        path('test-403/', lambda r: error_403(r, None)),
-        path('test-404/', lambda r: error_404(r, None)),
-        path('test-500/', error_500),
-        path('__debug__/', include('debug_toolbar.urls')),
-    ]
 
+    urlpatterns += [
+        path("test-400/", lambda r: error_400(r, None)),
+        path("test-403/", lambda r: error_403(r, None)),
+        path("test-404/", lambda r: error_404(r, None)),
+        path("test-500/", error_500),
+        path("__debug__/", include("debug_toolbar.urls")),
+    ]
 
 
 handler400 = "website.error_views.error_400"  # bad_request

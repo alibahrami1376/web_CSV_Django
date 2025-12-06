@@ -1,5 +1,6 @@
 from django.contrib.sitemaps import Sitemap
-from projects.models import Projects 
+from projects.models import Projects
+
 
 class ProjectSitemap(Sitemap):
     changefreq = "weekly"

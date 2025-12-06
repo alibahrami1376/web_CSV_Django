@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
 import os
 
 from pathlib import Path
@@ -22,11 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-@i57f*3nduso2gldjq7-sm9tsdh0bqc5sa$^-!a7ngax(k8w2g')
+SECRET_KEY = config(
+    "SECRET_KEY",
+    default="django-insecure-@i57f*3nduso2gldjq7-sm9tsdh0bqc5sa$^-!a7ngax(k8w2g",
+)
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config("DEBUG", default=False, cast=bool)
 SHOW_DEBUGGER_TOOLBAR = config("SHOW_DEBUGGER_TOOLBAR", cast=bool, default=False)
 
 ALLOWED_HOSTS = config(
@@ -40,72 +44,71 @@ COMINGSOON = config("COMINGSOON", cast=bool, default=False)
 # Application definition
 
 INSTALLED_APPS = [
-    'multi_captcha_admin',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'django.contrib.sitemaps',
-    'robots',
-    'captcha', 
-    'home',
-    'blog',
-    'projects',
-    'django_quill',
+    "multi_captcha_admin",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "django.contrib.sitemaps",
+    "robots",
+    "captcha",
+    "home",
+    "blog",
+    "projects",
+    "django_quill",
 ]
 
 SITE_ID = config("SITE_ID", cast=int, default=1)
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'website.middleware.RequestLoggingMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "website.middleware.RequestLoggingMiddleware",
 ]
 
-ROOT_URLCONF = 'website.urls'
-
+ROOT_URLCONF = "website.urls"
 
 
 MULTI_CAPTCHA_ADMIN = {
-    'engine': 'simple-captcha',
+    "engine": "simple-captcha",
 }
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'website.wsgi.application'
+WSGI_APPLICATION = "website.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 if DEBUG:
-        DATABASES = {
+    DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": "mydatabase",
         }
-    }   
+    }
 else:
     DATABASES = {
         "default": {
@@ -124,16 +127,16 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -141,7 +144,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = config("TIME_ZONE", default="UTC")
 
@@ -167,12 +170,11 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Email Configurations for production and development
-if DEBUG:    
+if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_USE_TLS = False
     EMAIL_HOST = "smtp4dev"
@@ -189,10 +191,9 @@ else:
     EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="password")
     EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=True)
     EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
-    DEFAULT_FROM_EMAIL = config(
-        "DEFAULT_FROM_EMAIL", default="info@example.com")
-    
-    
+    DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="info@example.com")
+
+
 # security configs for production
 if config("USE_SSL_CONFIG", cast=bool, default=False):
     # Https settings
@@ -255,7 +256,7 @@ if SHOW_DEBUGGER_TOOLBAR:
     import socket  # only if you haven't already imported this
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    
+
     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
         "127.0.0.1",
         "10.0.2.2",
@@ -263,53 +264,53 @@ if SHOW_DEBUGGER_TOOLBAR:
 
 # Logging Configuration
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
         },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'home': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+        "home": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'blog': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+        "blog": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'projects': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+        "projects": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'website': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+        "website": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
 }
