@@ -1,107 +1,97 @@
 # 🌐 Portfolio Website - Django
 
-یک وب‌سایت پورتفولیو و رزومه حرفه‌ای ساخته شده با Django که شامل بخش‌های مختلفی مانند بیوگرافی، پروژه‌ها، وبلاگ و تماس است.
+A professional portfolio and resume website built with Django that includes various sections such as biography, projects, blog, and contact.
 
 ## 📋 فهرست مطالب
 
-- [ویژگی‌ها](#-ویژگی‌ها)
-- [تکنولوژی‌ها](#-تکنولوژی‌ها)
-- [پیش‌نیازها](#-پیش‌نیازها)
-- [نصب و راه‌اندازی](#-نصب-و-راه‌اندازی)
-- [ساختار پروژه](#-ساختار-پروژه)
-- [استفاده](#-استفاده)
-- [تنظیمات](#-تنظیمات)
+- [Features](#-Features)
+- [Technologies](#-Technologies)
+- [Prerequisites](#-Prerequisites)
+- [Installation](#Installation and setup)
+- [Project structure](#-Projectstructure)
+- [settings](#-settings)
 - [استقرار](#-استقرار)
-- [مشارکت](#-مشارکت)
-- [لایسنس](#-لایسنس)
 
-## ✨ ویژگی‌ها
+## ✨ Features
 
-### 🏠 صفحه اصلی (Home)
-- نمایش بیوگرافی و اطلاعات شخصی
-- بخش تحصیلات
-- زبان‌های برنامه‌نویسی
-- مهارت‌ها و توانایی‌ها
-- فرم تماس با CAPTCHA
-- هدر داینامیک با منوی متفاوت برای صفحات مختلف
+### 🏠 Home page (Home)
+- Show biography and personal information
+- Education section
+- Programming languages
+- Skills and abilities
+- Contact form with CAPTCHA
+- Dynamic header with different menu for different pages
 
-### 📝 وبلاگ (Blog)
-- سیستم مدیریت محتوا با ویرایشگر Rich Text (Quill)
-- دسته‌بندی پست‌ها
-- جستجو در پست‌ها
-- صفحه‌بندی (Pagination)
-- نمایش پست‌های مرتبط
-- شمارش بازدیدها
-- فیلتر بر اساس دسته‌بندی
+### 📝 Weblog (Blog)
+- Content Management System with Rich Text Editor (Quill)
+- Post Categorisation
+- Post Search
+- Pagination
+- Show Related Posts
+- View Count
+- Filter by Category
 
 ### 💼 پروژه‌ها (Projects)
-- نمایش لیست پروژه‌ها با جزئیات کامل
-- دسته‌بندی پروژه‌ها
-- وضعیت پروژه‌ها (تکمیل شده، در حال توسعه، متوقف شده)
-- لینک‌های GitHub، دمو و وب‌سایت
-- پروژه‌های ویژه (Featured)
-- جستجو و فیلتر پیشرفته
-- شمارش بازدیدها
+- Show list of projects with full details
+- Project categories
+- Project status (completed, in development, stopped)
+- GitHub, demo and website links
+- Featured projects
+- Advanced search and filtering
+- View count
 
-### 🔐 احراز هویت
-- سیستم ثبت‌نام و ورود
-- پروفایل کاربری با آواتار
-- مدیریت پروفایل
+### 🔐 Identity verification
+- Registration and login system
+- User profile with avatar
+- Profile management
 
-### 🎨 رابط کاربری
-- طراحی Responsive و Mobile-First
-- پشتیبانی از تم روشن/تاریک
-- Web Components برای Header و Footer
-- استفاده از Feather Icons
-- صفحات خطای سفارشی (400, 403, 404, 500)
+### 🎨 User interface 
+- Responsive and Mobile-First Design
+- Light/Dark Theme Support
+- Web Components for Header and Footer
+- Use of Feather Icons
+- Custom Error Pages (400, 403, 404, 500)
 
-### 🔍 SEO و بهینه‌سازی
+### 🔍 SEO ​​and optimization
 - Sitemap.xml
 - Robots.txt
 - Meta Tags
-- URL Structure بهینه
+- Optimized URL Structure
 
 ## 🛠 تکنولوژی‌ها
 
 ### Backend
-- **Django 5.2.8** - فریمورک اصلی
-- **Python 3.12+** - زبان برنامه‌نویسی
-- **PostgreSQL** - پایگاه داده (قابل استفاده با SQLite در توسعه)
+- **Django 5.2.8** - Core Framework
+- **Python 3.12+** - Programming Language
+- **PostgreSQL** - Database (can be used with SQLite in development)
 
 ### Frontend
-- **HTML5/CSS3** - ساختار و استایل
-- **JavaScript (ES6+)** - تعاملات
-- **Web Components** - کامپوننت‌های قابل استفاده مجدد
-- **Feather Icons** - آیکون‌ها
+- **HTML5/CSS3** - Structure and Styling
+- **JavaScript (ES6+)** - Interactions
+- **Web Components** - Reusable Components
+- **Feather Icons** - Icons
 
-### کتابخانه‌ها و پکیج‌ها
-- `django-quill` - ویرایشگر Rich Text
-- `django-robots` - مدیریت Robots.txt
-- `django-simple-captcha` - CAPTCHA برای فرم‌ها
-- `django-debug-toolbar` - ابزار دیباگ
-- `python-decouple` - مدیریت تنظیمات
-- `Pillow` - پردازش تصاویر
-- `gunicorn` - سرور WSGI برای تولید
 
-## 📦 پیش‌نیازها
+### Libraries and Packages
+- `django-quill` - Rich Text Editor
+- `django-robots` - Robots.txt Manager
+- `django-simple-captcha` - CAPTCHA for Forms
+- `django-debug-toolbar` - Debug Tool
+- `python-decouple` - Configuration Manager
+- `Pillow` - Image Processing
+- `gunicorn` - WSGI Server for Production
 
-قبل از شروع، مطمئن شوید که موارد زیر را نصب کرده‌اید:
 
-- **Python 3.12+**
-- **pip** (مدیر بسته Python)
-- **PostgreSQL** (اختیاری - می‌توانید از SQLite استفاده کنید)
-- **Git**
+## 🚀 Installation and setup
 
-## 🚀 نصب و راه‌اندازی
-
-### 1. کلون کردن پروژه
+### 1. Clone the project
 
 ```bash
 git clone <repository-url>
 cd Web_Csv/web_CSV_Django
 ```
 
-### 2. ایجاد محیط مجازی (Virtual Environment)
+### 2. Creating a Virtual Environment
 
 ```bash
 # Windows
@@ -112,189 +102,61 @@ venv\Scripts\activate
 python3 -m venv venv
 source venv/bin/activate
 ```
-
-### 3. نصب وابستگی‌ها
-
+### 3. Installing dependencies
 ```bash
 pip install -r requirements.txt
 ```
+### 4. Environment Settings
 
-### 4. تنظیمات محیطی
+Create a `.env` file in the project root:
 
-یک فایل `.env` در ریشه پروژه ایجاد کنید:
+In the env.example file, copy the values ​​into env.
 
-```env
-SECRET_KEY=your-secret-key-here
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-SITE_ID=1
-SHOW_DEBUGGER_TOOLBAR=False
-COMINGSOON=False
+Copy the variables from env.example into .env and adjust them based on your environment (development or production).
 
-# Database (برای SQLite نیازی به تنظیم نیست)
-# DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+Uses SQLite as the default database
+No additional configuration required
 
-# Email (اختیاری)
-# EMAIL_HOST=smtp.gmail.com
-# EMAIL_PORT=587
-# EMAIL_HOST_USER=your-email@gmail.com
-# EMAIL_HOST_PASSWORD=your-password
-```
+Production Mode (DEBUG=False)
 
-### 5. اجرای Migration‌ها
+Uses PostgreSQL
+
+Make sure to set correct credentials
+
+DB_NAME=your_db_name
+DB_USER=your_db_user
+DB_PASSWORD=your_password
+DB_HOST=localhost
+DB_PORT=5432
+
+### 5. Running Migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### 6. ایجاد ابرکاربر (Superuser)
+### 6. Create a Superuser
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7. جمع‌آوری فایل‌های استاتیک
-
-```bash
-python manage.py collectstatic --noinput
-```
-
-### 8. اجرای سرور توسعه
+### 7. Running the Development Server
 
 ```bash
 python manage.py runserver
 ```
+Then go to the address `http://127.0.0.1:8000`.
 
-سپس به آدرس `http://127.0.0.1:8000` بروید.
 
-## 📁 ساختار پروژه
+## 💻 Use
 
-```
-web_CSV_Django/
-├── blog/                    # اپلیکیشن وبلاگ
-│   ├── models.py           # مدل‌های Post و Category
-│   ├── views.py            # View های وبلاگ
-│   ├── urls.py             # URL patterns
-│   ├── admin.py            # تنظیمات Admin
-│   ├── forms.py            # فرم‌های وبلاگ
-│   └── templatetags/       # Template tags سفارشی
-│
-├── home/                    # اپلیکیشن صفحه اصلی
-│   ├── models.py           # مدل‌های Contact و Profile
-│   ├── views.py            # View های صفحه اصلی
-│   ├── urls.py             # URL patterns
-│   ├── content.json        # محتوای صفحه اصلی
-│   └── forms.py            # فرم تماس
-│
-├── projects/                # اپلیکیشن پروژه‌ها
-│   ├── models.py           # مدل‌های Projects و Category
-│   ├── views.py            # View های پروژه‌ها
-│   ├── urls.py             # URL patterns
-│   └── admin.py            # تنظیمات Admin
-│
-├── website/                 # تنظیمات اصلی پروژه
-│   ├── settings.py         # تنظیمات Django
-│   ├── urls.py             # URL اصلی
-│   ├── wsgi.py             # WSGI config
-│   ├── asgi.py             # ASGI config
-│   └── error_views.py      # View های صفحات خطا
-│
-├── templates/               # قالب‌های HTML
-│   ├── base.html           # قالب پایه
-│   ├── home.html           # صفحه اصلی
-│   ├── blog/               # قالب‌های وبلاگ
-│   ├── projects/           # قالب‌های پروژه‌ها
-│   └── errors/             # صفحات خطا
-│
-├── static/                  # فایل‌های استاتیک
-│   ├── css/                # فایل‌های CSS
-│   ├── js/                 # فایل‌های JavaScript
-│   └── images/             # تصاویر
-│
-├── media/                   # فایل‌های آپلود شده
-│   ├── blog/               # تصاویر وبلاگ
-│   ├── projects/           # تصاویر پروژه‌ها
-│   └── profiles/           # آواتار کاربران
-│
-├── manage.py                # فایل مدیریت Django
-├── requirements.txt        # وابستگی‌های پروژه
-└── README.md               # این فایل
-```
+### Access to the admin panel
+1. Go to `http://127.0.0.1:8000/admin`
+2. Log in with the superuser you created
+3. You can manage blog posts, projects, and contact messages
 
-## 💻 استفاده
-
-### دسترسی به پنل ادمین
-
-1. به آدرس `http://127.0.0.1:8000/admin` بروید
-2. با ابرکاربری که ایجاد کردید وارد شوید
-3. می‌توانید پست‌های وبلاگ، پروژه‌ها و پیام‌های تماس را مدیریت کنید
-
-### ایجاد محتوا
-
-#### افزودن پست وبلاگ:
-1. به پنل ادمین بروید
-2. به بخش "Posts" بروید
-3. "Add Post" را کلیک کنید
-4. عنوان، محتوا (با ویرایشگر Rich Text)، تصویر و دسته‌بندی را وارد کنید
-5. وضعیت را به "Published" تغییر دهید و تاریخ انتشار را تنظیم کنید
-
-#### افزودن پروژه:
-1. به بخش "Projects" در پنل ادمین بروید
-2. "Add Project" را کلیک کنید
-3. اطلاعات پروژه را وارد کنید
-4. لینک‌های GitHub، دمو و وب‌سایت را اضافه کنید (اختیاری)
-
-### تست صفحات خطا
-
-در حالت `DEBUG=True`، می‌توانید صفحات خطا را با این URLها تست کنید:
-
-- `/test-400/` - خطای درخواست نامعتبر
-- `/test-403/` - خطای دسترسی ممنوع
-- `/test-404/` - خطای صفحه یافت نشد
-- `/test-500/` - خطای سرور
-
-## ⚙️ تنظیمات
-
-### تنظیمات پایگاه داده
-
-در `settings.py` می‌توانید پایگاه داده را تغییر دهید:
-
-```python
-# برای SQLite (پیش‌فرض)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# برای PostgreSQL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_db_name',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-### تنظیمات ایمیل
-
-برای فعال‌سازی ارسال ایمیل، در `.env` تنظیمات زیر را اضافه کنید:
-
-```env
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-```
-
-### تنظیمات Static و Media Files
+### Static and Media Files Settings
 
 ```python
 STATIC_URL = '/static/'
@@ -304,82 +166,25 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 ```
 
-## 🚢 استقرار
 
-### استقرار روی Liara
 
-این پروژه برای استقرار روی [Liara](https://liara.ir) آماده شده است:
 
-1. فایل `liara.json` را بررسی کنید
-2. پروژه را به Liara push کنید
-3. متغیرهای محیطی را در پنل Liara تنظیم کنید
 
-### استقرار با Gunicorn
 
-```bash
-# نصب Gunicorn
-pip install gunicorn
 
-# اجرا
-gunicorn website.wsgi:application --bind 0.0.0.0:8000
-```
 
-### استقرار با Docker (اختیاری)
 
-می‌توانید یک `Dockerfile` و `docker-compose.yml` اضافه کنید برای استقرار با Docker.
-
-## 🧪 تست
-
-```bash
-# اجرای تست‌ها
-python manage.py test
-
-# با coverage
-coverage run --source='.' manage.py test
-coverage report
-```
-
-## 📝 مستندات
-
-مستندات کامل‌تر در پوشه `DOC/` موجود است:
-
-- `01_HOME_APP.md` - مستندات اپلیکیشن Home
-- `02_BLOG_APP.md` - مستندات اپلیکیشن Blog
-- `03_PROJECTS_APP.md` - مستندات اپلیکیشن Projects
-- `04_WEBSITE_CONFIG.md` - تنظیمات وب‌سایت
-- `05_TEMPLATES.md` - مستندات قالب‌ها
-
-## 🤝 مشارکت
-
-مشارکت‌ها خوش‌آمد هستند! لطفاً:
-
-1. پروژه را Fork کنید
-2. یک شاخه برای ویژگی جدید ایجاد کنید (`git checkout -b feature/AmazingFeature`)
-3. تغییرات را Commit کنید (`git commit -m 'Add some AmazingFeature'`)
-4. به شاخه Push کنید (`git push origin feature/AmazingFeature`)
-5. یک Pull Request باز کنید
-
-## 📄 لایسنس
 
 این پروژه تحت لایسنس MIT منتشر شده است. برای جزئیات بیشتر فایل `LICENSE` را ببینید.
 
-## 👤 نویسنده
+## 👤 Author
 
 **Ali Bahrami**
 
 - GitHub: [@alibahrami1376](https://github.com/alibahrami1376)
 
-## 🙏 تشکر
+## 🙏 Thanks
 
-از تمام کسانی که در ساخت این پروژه مشارکت کردند، تشکر می‌کنم.
+This course was conducted after watching Mr. Ali Bigdali's course at [MaktabKhoune](https://maktabkhooneh.org/course/%D8%A2%D9%85%D9%88%D8%B2%D8%B4-%D8%AC%D9%86%DA%AF%D9%88-mk1287/).
+ Thank you to  [Mr.Bigdali](https://github.com/AliBigdeli) for the excellent trainin
 
-## 📞 پشتیبانی
-
-اگر سوالی دارید یا مشکلی پیش آمد، می‌توانید:
-
-- یک Issue در GitHub باز کنید
-- از طریق فرم تماس در وب‌سایت با من تماس بگیرید
-
----
-
-⭐ اگر این پروژه برایتان مفید بود، یک ستاره به آن بدهید!
