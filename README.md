@@ -1,12 +1,14 @@
 # 🌐 Portfolio Website - Django
 
 A professional portfolio and resume website built with Django that includes various sections such as biography, projects, blog, and contact.
+[website-address](https://thealibahrami.ir/)
 
 ## 📋 Table of Contents
 - [Features](#-Features)
 - [Technologies](#-Technologies)
-- [Installation](#Installation and setup)
+- [Installation](#Installation)
 - [settings](#-settings)
+
 
 
 ## ✨ Features
@@ -28,7 +30,7 @@ A professional portfolio and resume website built with Django that includes vari
 - View Count
 - Filter by Category
 
-### 💼 پروژه‌ها (Projects)
+### 💼 (Projects)
 - Show list of projects with full details
 - Project categories
 - Project status (completed, in development, stopped)
@@ -162,17 +164,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 ```
-
-
-
-
-
-
-
-
-
-
-این پروژه تحت لایسنس MIT منتشر شده است. برای جزئیات بیشتر فایل `LICENSE` را ببینید.
 
 ## 👤 Author
 
