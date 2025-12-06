@@ -173,6 +173,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 ## 🙏 Thanks
 
-This course was conducted after watching Mr. Ali Bigdali's course at [MaktabKhoune](https://maktabkhooneh.org/course/%D8%A2%D9%85%D9%88%D8%B2%D8%B4-%D8%AC%D9%86%DA%AF%D9%88-mk1287/).
+This course was conducted after watching Mr. Ali Bigdali's course at [MaktabKhooneh](https://maktabkhooneh.org/course/%D8%A2%D9%85%D9%88%D8%B2%D8%B4-%D8%AC%D9%86%DA%AF%D9%88-mk1287/).
  Thank you to  [Mr.Bigdali](https://github.com/AliBigdeli) for the excellent trainin
 
