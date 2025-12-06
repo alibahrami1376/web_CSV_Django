@@ -45,16 +45,31 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', include('robots.urls')),
-    path('__debug__/', include('debug_toolbar.urls'))
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
+# Test error pages (only in DEBUG mode for testing)
+if settings.DEBUG:
+    from website.error_views import error_400, error_403, error_404, error_500
+    urlpatterns += [
+        path('test-400/', lambda r: error_400(r, None)),
+        path('test-403/', lambda r: error_403(r, None)),
+        path('test-404/', lambda r: error_404(r, None)),
+        path('test-500/', error_500),
+    ]
 
 
 
-# فقط در حالت development static files را serve کن
+
 if settings.DEBUG:
     logger.info('DEBUG mode: Adding static and media file serving')
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     logger.info('Static files configuration completed!')
     logger.info('Everything is OK!')
+
+
+handler400 = "website.error_views.error_400"  # bad_request
+handler403 = "website.error_views.error_403"  # permission_denied
+handler404 = "website.error_views.error_404"  # page_not_found
+handler500 = "website.error_views.error_500"  # server_errorcls
