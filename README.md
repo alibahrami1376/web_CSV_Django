@@ -2,15 +2,12 @@
 
 A professional portfolio and resume website built with Django that includes various sections such as biography, projects, blog, and contact.
 
-## 📋 فهرست مطالب
-
+## 📋 Table of Contents
 - [Features](#-Features)
 - [Technologies](#-Technologies)
-- [Prerequisites](#-Prerequisites)
 - [Installation](#Installation and setup)
-- [Project structure](#-Projectstructure)
 - [settings](#-settings)
-- [استقرار](#-استقرار)
+
 
 ## ✨ Features
 
@@ -58,7 +55,7 @@ A professional portfolio and resume website built with Django that includes vari
 - Meta Tags
 - Optimized URL Structure
 
-## 🛠 تکنولوژی‌ها
+## 🛠 Technologies
 
 ### Backend
 - **Django 5.2.8** - Core Framework
@@ -82,7 +79,7 @@ A professional portfolio and resume website built with Django that includes vari
 - `gunicorn` - WSGI Server for Production
 
 
-## 🚀 Installation and setup
+## 🚀 Installation
 
 ### 1. Clone the project
 
